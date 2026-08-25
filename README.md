@@ -93,6 +93,19 @@ Principes :
 | `npm run start` | Servir le build                   |
 | `npm run lint`  | ESLint                            |
 
+## Déploiement Vercel
+
+1. [vercel.com](https://vercel.com) → **Add New… → Project** → importer le dépôt GitHub `hleblanc-oss/Clinique-La-Parenth-se-` (autoriser l'accès Vercel ↔ GitHub au passage). Next.js est détecté automatiquement — aucun réglage de build à changer.
+2. Avant de cliquer *Deploy*, ajouter les **variables d'environnement** (mêmes noms que `.env.example`) :
+   - `SQUARE_ENVIRONMENT=sandbox`
+   - `SQUARE_ACCESS_TOKEN` (jeton sandbox)
+   - `SQUARE_APPLICATION_ID`
+   - `SQUARE_LOCATION_ID=LD3T1SM4P789A` (location sandbox)
+   - `DATA_PROVIDER` : `mock` pour une démo visuelle complète du flux de réservation tant qu'Appointments n'est pas activé dans le sandbox; `square` ensuite.
+3. *Deploy* → Vercel fournit une URL `*.vercel.app`. Chaque `git push` redéploie automatiquement.
+4. Note : le dépôt étant né avec la seule branche `claude/new-session-19zz3o`, c'est elle la branche par défaut — Vercel la traitera comme production. On pourra créer `main` plus tard et y basculer la production (Vercel → Settings → Git).
+5. Au lancement : passer les variables en valeurs de production (`SQUARE_ENVIRONMENT=production`, jeton de production, `SQUARE_LOCATION_ID=LN4WVN4CZP6QN`, `DATA_PROVIDER=square`) et brancher le domaine (Vercel → Settings → Domains).
+
 ## À faire avant le lancement (Phase 1)
 
 - [ ] Renseigner téléphone et courriel officiels dans `src/content/clinique.ts` (repli des états d'erreur)
