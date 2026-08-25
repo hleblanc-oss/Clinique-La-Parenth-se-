@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+/*
+  Palette Clinique La Parenthèse — validée par la cliente (crème + vert sauge).
+  La palette par défaut de Tailwind est retirée : aucun brun/taupe/beige,
+  aucun blanc pur. Strictement crème + sauge + noir.
+*/
+@theme {
+  --color-*: initial;
+
+  --color-creme: #f8f4ef;
+  --color-sauge: #a3b29a;
+  --color-sauge-clair: #e4e9df;
+  --color-sauge-fonce: #5f7055;
+  --color-noir: #211d1a;
+  --color-texte-doux: #2f332c;
+
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-jost), Jost, system-ui, sans-serif;
+  --font-script: var(--font-tangerine), "Tangerine", cursive;
+
+  --ease-doux: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--color-creme);
+    color: var(--color-texte-doux);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    color: var(--color-noir);
+    line-height: 1.12;
+  }
+
+  ::selection {
+    background-color: var(--color-sauge-clair);
+    color: var(--color-noir);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-sauge-fonce);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  .conteneur {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 72rem;
+    padding-inline: 1.25rem;
+  }
+
+  @media (width >= 40rem) {
+    .conteneur {
+      padding-inline: 2rem;
+    }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    padding: 0.875rem 1.875rem;
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    transition:
+      background-color 250ms var(--ease-doux),
+      color 250ms var(--ease-doux),
+      border-color 250ms var(--ease-doux),
+      opacity 250ms var(--ease-doux);
+  }
+
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .btn-primaire {
+    background-color: var(--color-noir);
+    color: var(--color-creme);
+  }
+
+  .btn-primaire:hover:not(:disabled) {
+    background-color: var(--color-sauge-fonce);
+  }
+
+  .btn-secondaire {
+    border: 1px solid var(--color-sauge-fonce);
+    color: var(--color-sauge-fonce);
+    background-color: transparent;
+  }
+
+  .btn-secondaire:hover:not(:disabled) {
+    background-color: var(--color-sauge-clair);
+    color: var(--color-noir);
+  }
+
+  .btn-clair {
+    background-color: var(--color-creme);
+    color: var(--color-noir);
+  }
+
+  .btn-clair:hover:not(:disabled) {
+    background-color: var(--color-sauge-clair);
+  }
+
+  .etiquette {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-sauge-fonce);
+    margin-bottom: 0.5rem;
+  }
+
+  .champ {
+    width: 100%;
+    border: 1px solid color-mix(in srgb, var(--color-noir) 15%, transparent);
+    border-radius: 0.75rem;
+    background-color: var(--color-creme);
+    padding: 0.8125rem 1rem;
+    font-size: 1rem;
+    color: var(--color-noir);
+    transition: border-color 250ms var(--ease-doux);
+  }
+
+  .champ::placeholder {
+    color: color-mix(in srgb, var(--color-texte-doux) 45%, transparent);
+  }
+
+  .champ:focus {
+    outline: none;
+    border-color: var(--color-sauge-fonce);
+  }
+
+  .champ[aria-invalid="true"] {
+    border-color: var(--color-noir);
+  }
+
+  /* Skeletons de chargement aux couleurs crème/sauge (jamais de spinner brut) */
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-sauge-clair);
+    border-radius: 0.75rem;
+  }
+
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--color-creme) 65%, transparent),
+      transparent
+    );
+    animation: skeleton-brillance 1.6s var(--ease-doux) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton::after {
+      animation: none;
+    }
+  }
+}
+
+/* Marquee — défilement horizontal lent (inspiration Esthelle) */
+.marquee-piste {
+  display: flex;
+  width: max-content;
+  animation: marquee-defile 32s linear infinite;
+}
+
+.marquee:hover .marquee-piste {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-piste {
+    animation: none;
+  }
+}
+
+@keyframes marquee-defile {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes skeleton-brillance {
+  100% {
+    transform: translateX(100%);
+  }
+}
