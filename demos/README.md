@@ -14,6 +14,18 @@ se changent ensuite d'un seul endroit.
 
 Chaque modèle a son flux de réservation cliquable (démo, rien n'est envoyé).
 
+## Présentation ordinateur + téléphone
+
+Sur un ordinateur, chaque modèle s'affiche **en double, côte à côte** : une fenêtre de navigateur
+(version ordinateur, mise à l'échelle) et un cadre de téléphone (version mobile, 390 px). Les deux
+écrans sont vivants : défilement, accordéons, filtres et réservation fonctionnent dans chacun.
+Ouvert directement sur un téléphone, le lien affiche simplement la vraie version mobile, sans cadres.
+
+Techniquement, les points de bascule du site sont des requêtes de conteneur (`@container`) et les
+tailles fluides utilisent des unités `cqi` : la mise en page réagit à la largeur de l'écran simulé,
+pas à celle de la fenêtre. Le site de chaque modèle est cloné dans les deux écrans (identifiants
+préfixés `o-` / `p-`).
+
 ## Contenu
 
 Tiré de la page de réservation Square de la clinique (12 octobre 2026) : 7 soins, prix, durées,
