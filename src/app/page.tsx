@@ -87,7 +87,7 @@ export default function Accueil() {
             </Reveal>
             <Reveal delai={0.16}>
               <p className="mt-6 leading-relaxed">
-                Je m&rsquo;appelle {clinique.fondatrice}. Infirmière clinicienne de formation et
+                Je m&rsquo;appelle {clinique.fondatrice}. Infirmière de formation et
                 esthéticienne spécialisée en soins du visage, j&rsquo;ai fondé{" "}
                 {clinique.nom} pour offrir ce qui me manquait : des soins de la peau rigoureux,
                 appuyés par une vraie expertise médicale, dans un endroit où l&rsquo;on prend le

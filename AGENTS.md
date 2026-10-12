@@ -33,4 +33,5 @@ Brief complet : voir README.md. Règles non négociables pour toute contribution
 
 ## Contenu
 - Français québécois soigné, vouvoiement. Mobile d'abord (<768 px). 
+- **Karianne est infirmière, PAS « infirmière clinicienne »** (correction de la cliente, 12 oct. 2026). Ne jamais écrire « clinicienne ».
 - Prévoir chargement (skeletons crème/sauge), vide, erreur (message doux + repli contact) pour tout appel réseau.

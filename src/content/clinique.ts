@@ -8,7 +8,7 @@ export const URL_SITE = "https://cliniquelaparenthese.ca";
 
 export const clinique = {
   nom: "Clinique La Parenthèse",
-  slogan: "Dermo-esthétique par une infirmière clinicienne",
+  slogan: "Dermo-esthétique par une infirmière",
   fondatrice: "Karianne",
   ouverture: "septembre 2026",
   partenaire: "G.M. Collin",

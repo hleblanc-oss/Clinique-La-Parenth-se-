@@ -1,6 +1,6 @@
 # Clinique La Parenthèse — Site web
 
-Site de la **Clinique La Parenthèse**, clinique de dermo-esthétique fondée par Karianne, infirmière clinicienne, à Trois-Rivières (429, rue Barkoff). Positionnement : *« Dermo-esthétique par une infirmière clinicienne »*, partenaire exclusif **G.M. Collin**. Ouverture : **septembre 2026**.
+Site de la **Clinique La Parenthèse**, clinique de dermo-esthétique fondée par Karianne, infirmière, à Trois-Rivières (429, rue Barkoff). Positionnement : *« Dermo-esthétique par une infirmière »*, partenaire exclusif **G.M. Collin**. Ouverture : **septembre 2026**.
 
 Interface custom par-dessus l'écosystème **Square** (rendez-vous, catalogue, paiements) — jamais de redirection vers les pages génériques Square.
 

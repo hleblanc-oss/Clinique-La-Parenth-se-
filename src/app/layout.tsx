@@ -34,13 +34,13 @@ export const metadata: Metadata = {
     template: `%s — ${clinique.nom}`,
   },
   description:
-    "Dermo-esthétique par une infirmière clinicienne à Trois-Rivières. Soins du visage G.M. Collin, analyse de peau personnalisée et réservation en ligne. Ouverture septembre 2026.",
+    "Dermo-esthétique par une infirmière à Trois-Rivières. Soins du visage G.M. Collin, analyse de peau personnalisée et réservation en ligne. Ouverture septembre 2026.",
   keywords: [
     "dermo-esthétique",
     "soins du visage",
     "Trois-Rivières",
     "G.M. Collin",
-    "infirmière clinicienne",
+    "infirmière",
     "esthétique",
     "analyse de peau",
   ],
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     siteName: clinique.nom,
     title: `${clinique.nom} — Dermo-esthétique à Trois-Rivières`,
     description:
-      "Soins du visage G.M. Collin par une infirmière clinicienne, dans une ambiance intime et personnalisée.",
+      "Soins du visage G.M. Collin par une infirmière, dans une ambiance intime et personnalisée.",
   },
 };
 

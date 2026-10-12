@@ -7,7 +7,7 @@ import { clinique } from "@/content/clinique";
 export const metadata: Metadata = {
   title: "À propos",
   description:
-    "Karianne, infirmière clinicienne et esthéticienne, a fondé Clinique La Parenthèse à Trois-Rivières : la rigueur des soins infirmiers au service de votre peau.",
+    "Karianne, infirmière et esthéticienne, a fondé Clinique La Parenthèse à Trois-Rivières : la rigueur des soins infirmiers au service de votre peau.",
 };
 
 /*
@@ -42,7 +42,7 @@ export default function APropos() {
                 Bonjour, moi c&rsquo;est {clinique.fondatrice}
               </h2>
               <p className="mt-5 leading-relaxed">
-                Infirmière clinicienne de 28 ans, j&rsquo;ai passé les dernières années à prendre
+                Infirmière de 28 ans, j&rsquo;ai passé les dernières années à prendre
                 soin des gens — au sens le plus concret du terme. C&rsquo;est dans ce métier que
                 j&rsquo;ai appris la rigueur, l&rsquo;écoute et l&rsquo;importance de chaque
                 détail.

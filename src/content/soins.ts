@@ -41,7 +41,7 @@ export const soins: Soin[] = [
       "Évaluation complète de vos besoins et plan de soins personnalisé — le point de départ idéal.",
     description: [
       "Chaque peau a son histoire. Avant de proposer quoi que ce soit, Karianne prend le temps de comprendre la vôtre : votre type de peau, vos préoccupations, votre routine actuelle et vos objectifs.",
-      "Grâce à son regard d'infirmière clinicienne, l'analyse va au-delà de l'esthétique : état de la barrière cutanée, sensibilités, antécédents et contre-indications sont pris en compte pour bâtir un plan de soins réaliste et sécuritaire.",
+      "Grâce à son regard d'infirmière, l'analyse va au-delà de l'esthétique : état de la barrière cutanée, sensibilités, antécédents et contre-indications sont pris en compte pour bâtir un plan de soins réaliste et sécuritaire.",
       "Vous repartez avec des recommandations claires : le soin en cabine le mieux adapté, une routine maison simple et, si vous le souhaitez, un calendrier de suivi.",
     ],
     pourQui: [
@@ -239,7 +239,7 @@ export const soins: Soin[] = [
       "Exfoliation professionnelle : élimine les cellules mortes et améliore la texture de la peau.",
     description: [
       "Le peeling professionnel exfolie la peau bien au-delà de ce qu'un gommage maison peut faire : il élimine les cellules mortes, affine le grain de peau et stimule le renouvellement cellulaire.",
-      "Réalisé par une infirmière clinicienne, le choix de l'acide et de son intensité est ajusté à votre peau — efficacité maximale, en toute sécurité.",
+      "Réalisé par une infirmière, le choix de l'acide et de son intensité est ajusté à votre peau — efficacité maximale, en toute sécurité.",
     ],
     pourQui: [
       "Grain de peau irrégulier, texture rugueuse",

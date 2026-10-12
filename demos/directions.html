@@ -64,14 +64,14 @@ p{text-wrap:pretty}
 .choix__in{height:var(--bar);max-width:1180px;margin-inline:auto;padding-inline:clamp(12px,3vw,40px);display:flex;align-items:center;gap:20px}
 .choix__t{margin:0;min-width:0;font:600 11px/1.3 var(--p-sans);letter-spacing:.16em;text-transform:uppercase}
 .choix__t span{display:block;margin-top:2px;font:400 12.5px/1.35 var(--p-sans);letter-spacing:0;text-transform:none;opacity:.72;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.choix__tabs{display:flex;gap:6px;margin-left:auto;flex-shrink:0}
+.choix__tabs{display:flex;gap:6px;margin-left:auto;flex-shrink:0;max-width:100%;overflow-x:auto;scrollbar-width:none}
 .choix__tabs button{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(247,239,232,.24);background:transparent;color:var(--choix-encre);border-radius:999px;padding:8px 14px;font:500 13px/1 var(--p-sans);cursor:pointer;white-space:nowrap;transition:background-color .25s,color .25s,border-color .25s}
 .choix__tabs button:hover{border-color:rgba(247,239,232,.6)}
 .choix__tabs button[aria-selected="true"]{background:var(--choix-encre);color:var(--choix-fond);border-color:var(--choix-encre)}
 .choix__tabs button:focus-visible{outline:2px solid var(--choix-encre);outline-offset:2px}
 .choix__tabs .choix__ref{border-style:dashed;opacity:.85}
 .choix__num{opacity:.55;font-variant-numeric:tabular-nums}
-@media (max-width:760px){.choix__t{display:none}.choix__tabs{margin-inline:auto;gap:4px}.choix__tabs button{padding:8px 10px;font-size:12.5px}.choix__num{display:none}}
+@media (max-width:760px){.choix__t{display:none}.choix__tabs{margin-inline:0;flex-shrink:1;gap:4px}.choix__tabs button{padding:8px 10px;font-size:12.5px}.choix__num{display:none}}
 
 /* ---------- Composants partagés ---------- */
 .logo-lp{display:block;height:auto;max-width:100%}
@@ -386,6 +386,18 @@ p{text-wrap:pretty}
 .c-foot__bas p{margin:0}
 @container (max-width:760px){.c-foot__in{grid-template-columns:minmax(0,1fr)}}
 
+
+/* ================= FUSION — disposition du départ + grande photo ================= */
+.f-hero .m-hero__txt{padding-bottom:clamp(104px,11cqi,150px)}
+.f-hero h1{font-size:clamp(58px,9.5cqi,144px)}
+.f-badge{position:absolute;top:clamp(20px,4cqi,52px);right:clamp(16px,5cqi,72px);width:clamp(96px,9cqi,132px);animation:tourne 32s linear infinite}
+.f-trust{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px;font:500 11.5px/1.4 var(--p-sans);letter-spacing:.18em;text-transform:uppercase;color:var(--peche)}
+.f-trust li{display:flex;align-items:center;gap:9px}
+.f-trust li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--caramel)}
+.f-consult-w{position:relative;z-index:3;display:flex;justify-content:flex-end;margin-top:-66px;margin-bottom:22px}
+.f-consult-w .f-consult{position:relative;right:auto;bottom:auto;max-width:300px}
+@container (max-width:900px){.f-consult-w{justify-content:center;margin-top:-58px;margin-bottom:26px}.f-consult-w .f-consult{max-width:340px}.f-badge{top:16px;right:14px;width:84px}.f-hero .m-hero__txt{padding-top:116px}}
+
 /* ================= DÉPART — modèle d'origine ================= */
 .a-head{position:sticky;top:var(--haut);z-index:50;background:color-mix(in srgb,var(--fond) 90%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--ligne)}
 .a-head__in{display:flex;align-items:center;gap:28px;min-height:76px}
@@ -652,12 +664,13 @@ p{text-wrap:pretty}
 <!-- ================= BARRE DE CHOIX ================= -->
 <div class="choix">
   <div class="choix__in">
-    <p class="choix__t">3 modèles · style éditorial<span id="choix-desc">Atelier : écran partagé, photo fixe et soins détaillés étape par étape</span></p>
+    <p class="choix__t">Choix de Karianne<span id="choix-desc"></span></p>
     <div class="choix__tabs" role="tablist" aria-label="Choisir un modèle">
-      <button type="button" role="tab" id="tab-atelier" data-go="atelier" aria-controls="scene" aria-selected="true"><span class="choix__num">1</span>Atelier</button>
-      <button type="button" role="tab" id="tab-magazine" data-go="magazine" aria-controls="scene" aria-selected="false" tabindex="-1"><span class="choix__num">2</span>Magazine</button>
-      <button type="button" role="tab" id="tab-cocon" data-go="cocon" aria-controls="scene" aria-selected="false" tabindex="-1"><span class="choix__num">3</span>Cocon</button>
-      <button type="button" role="tab" id="tab-depart" data-go="depart" aria-controls="scene" aria-selected="false" tabindex="-1" class="choix__ref">Départ</button>
+      <button type="button" role="tab" id="tab-fusion" data-go="fusion" aria-controls="scene" aria-selected="true">Fusion</button>
+      <button type="button" role="tab" id="tab-depart" data-go="depart" aria-controls="scene" aria-selected="false" tabindex="-1">Départ</button>
+      <button type="button" role="tab" id="tab-magazine" data-go="magazine" aria-controls="scene" aria-selected="false" tabindex="-1" class="choix__ref">Magazine</button>
+      <button type="button" role="tab" id="tab-atelier" data-go="atelier" aria-controls="scene" aria-selected="false" tabindex="-1" class="choix__ref">Atelier</button>
+      <button type="button" role="tab" id="tab-cocon" data-go="cocon" aria-controls="scene" aria-selected="false" tabindex="-1" class="choix__ref">Cocon</button>
     </div>
   </div>
 </div>
@@ -709,9 +722,9 @@ p{text-wrap:pretty}
 
       <section class="t-sec t-intro" id="t-intro">
         <p class="eyebrow">La clinique</p>
-        <p class="t-grand">Une clinique intime où une <em>infirmière clinicienne</em> prend soin de votre peau, un protocole G.M. Collin à la fois.</p>
+        <p class="t-grand">Une clinique intime où une <em>infirmière</em> prend soin de votre peau, un protocole G.M. Collin à la fois.</p>
         <dl class="t-faits">
-          <div><dt>Infirmière</dt><dd>clinicienne et esthéticienne</dd></div>
+          <div><dt>Infirmière</dt><dd>et esthéticienne</dd></div>
           <div><dt>Analyse</dt><dd>de peau incluse dans chaque soin</dd></div>
           <div><dt>G.M. Collin</dt><dd>produits professionnels</dd></div>
         </dl>
@@ -728,7 +741,7 @@ p{text-wrap:pretty}
           <div>
             <p class="eyebrow">Votre infirmière</p>
             <h2 class="t-h2">Karianne <em>Nadeau-Berthiaume</em></h2>
-            <p>Infirmière clinicienne et esthéticienne spécialisée en soins du visage, j'ai ouvert La Parenthèse pour offrir des soins rigoureux dans un endroit où l'on prend le temps.</p>
+            <p>Infirmière et esthéticienne spécialisée en soins du visage, j'ai ouvert La Parenthèse pour offrir des soins rigoureux dans un endroit où l'on prend le temps.</p>
             <p>Avant chaque soin, j'analyse votre peau et je tiens compte de vos sensibilités, de votre médication et de vos objectifs.</p>
             <p class="script" aria-hidden="true">Karianne</p>
           </div>
@@ -774,15 +787,15 @@ p{text-wrap:pretty}
     <div class="m-hero__txt">
       <p class="eyebrow">Clinique dermo-esthétique · Trois-Rivières</p>
       <h1>Prenez une parenthèse.</h1>
-      <p>Des soins du visage G.M. Collin réalisés par une infirmière clinicienne, dans un espace pensé pour ralentir.</p>
+      <p>Des soins du visage G.M. Collin réalisés par une infirmière, dans un espace pensé pour ralentir.</p>
       <div class="m-ctas"><button type="button" class="btn btn--clair" data-book="">Prendre rendez-vous</button><a class="btn btn--fantome" href="#m-soins">Découvrir les soins</a></div>
     </div>
   </section>
 
   <section class="m-manif">
     <div class="w">
-      <p class="m-lettrine">Chaque peau a son histoire. Avant de proposer quoi que ce soit, Karianne prend le temps de comprendre la vôtre : votre routine, vos sensibilités, vos objectifs. Son regard d'infirmière clinicienne va au-delà de l'esthétique, pour des soins aussi rigoureux que réconfortants.</p>
-      <p class="m-sign">Karianne Nadeau-Berthiaume · Infirmière clinicienne</p>
+      <p class="m-lettrine">Chaque peau a son histoire. Avant de proposer quoi que ce soit, Karianne prend le temps de comprendre la vôtre : votre routine, vos sensibilités, vos objectifs. Son regard d'infirmière va au-delà de l'esthétique, pour des soins aussi rigoureux que réconfortants.</p>
+      <p class="m-sign">Karianne Nadeau-Berthiaume · Infirmière</p>
     </div>
   </section>
 
@@ -809,7 +822,7 @@ p{text-wrap:pretty}
       <div>
         <p class="eyebrow">La fondatrice</p>
         <blockquote class="m-k__cit"><span>« </span>Je voulais un endroit où l'on prend vraiment le temps de comprendre la peau, avec la rigueur d'une infirmière.<span> »</span></blockquote>
-        <p class="m-k__bio">Infirmière clinicienne et esthéticienne spécialisée en soins du visage, Karianne a fondé La Parenthèse à Trois-Rivières. Chaque soin commence par une analyse de votre peau et tient compte de vos sensibilités et de votre médication.</p>
+        <p class="m-k__bio">Infirmière et esthéticienne spécialisée en soins du visage, Karianne a fondé La Parenthèse à Trois-Rivières. Chaque soin commence par une analyse de votre peau et tient compte de vos sensibilités et de votre médication.</p>
         <p class="m-k__sign">Karianne Nadeau-Berthiaume</p>
       </div>
     </div>
@@ -869,12 +882,12 @@ p{text-wrap:pretty}
         <div class="c-hero__txt">
           <p class="eyebrow">Dermo-esthétique · Trois-Rivières</p>
           <h1>Votre peau entre <em>de bonnes mains</em></h1>
-          <p>Soins du visage G.M. Collin et analyse de peau par Karianne, infirmière clinicienne. Réservez en ligne en moins d'une minute.</p>
-          <ul class="c-puces"><li>Infirmière clinicienne</li><li>Analyse de peau incluse</li><li>Produits G.M. Collin</li></ul>
+          <p>Soins du visage G.M. Collin et analyse de peau par Karianne, infirmière. Réservez en ligne en moins d'une minute.</p>
+          <ul class="c-puces"><li>Infirmière</li><li>Analyse de peau incluse</li><li>Produits G.M. Collin</li></ul>
         </div>
         <div class="c-hero__img">
           <img class="photo" src="images/soin-peeling.jpg" alt="Application d'un peeling au pinceau pendant un soin">
-          <div class="c-hero__bulle"><span><span data-ph="portrait"></span></span><span><b>Karianne</b>Infirmière clinicienne</span></div>
+          <div class="c-hero__bulle"><span><span data-ph="portrait"></span></span><span><b>Karianne</b>Infirmière</span></div>
         </div>
       </div>
       <form class="c-widget" id="c-widget" aria-label="Réservation rapide">
@@ -911,8 +924,8 @@ p{text-wrap:pretty}
         <div>
           <p class="eyebrow">Votre infirmière</p>
           <h2 class="c-h2">Allô, moi c'est <em>Karianne</em></h2>
-          <p>Infirmière clinicienne et esthéticienne spécialisée en soins du visage, j'ai ouvert La Parenthèse pour que chaque cliente se sente écoutée et en confiance. Avant chaque soin, on jase de votre peau, de votre routine et de vos objectifs.</p>
-          <ul class="c-puces"><li>Infirmière clinicienne</li><li>Soins du visage</li><li>Partenaire G.M. Collin</li></ul>
+          <p>Infirmière et esthéticienne spécialisée en soins du visage, j'ai ouvert La Parenthèse pour que chaque cliente se sente écoutée et en confiance. Avant chaque soin, on jase de votre peau, de votre routine et de vos objectifs.</p>
+          <ul class="c-puces"><li>Infirmière</li><li>Soins du visage</li><li>Partenaire G.M. Collin</li></ul>
           <p class="script" aria-hidden="true">la beauté en douceur</p>
         </div>
       </div>
@@ -957,6 +970,112 @@ p{text-wrap:pretty}
 </main>
 
 <!-- ================= DÉPART — modèle d'origine ================= -->
+<!-- ================= FUSION : disposition du départ + photo du Magazine ================= -->
+<main class="site" id="site-fusion">
+  <header class="a-head">
+    <div class="w a-head__in">
+      <a class="a-logo" href="#f-top" aria-label="Clinique La Parenthèse, haut de page">
+        <svg class="logo-lp a-logo__svg" viewBox="0 0 428.54 105.29" aria-hidden="true" focusable="false"><use href="#logo-lp"/></svg>
+      </a>
+      <nav class="a-nav" aria-label="Sections">
+        <a href="#f-soins">Soins</a><a href="#f-karianne">Karianne</a><a href="#f-rituel">Produits</a><a href="#f-contact">Contact</a>
+      </nav>
+      <button type="button" class="a-btn a-btn--plein a-head__cta" data-book=""><span class="long">Prendre rendez-vous</span><span class="court">Réserver</span></button>
+    </div>
+  </header>
+  <section class="m-hero f-hero" id="f-top">
+    <div class="m-hero__img"><img class="photo" src="images/soin-masque.jpg" alt="Cliente détendue pendant un soin du visage G.M. Collin"></div>
+    <div class="f-badge" data-badge="INFIRMIÈRE · SOINS DU VISAGE · G.M. COLLIN · " aria-hidden="true"></div>
+    <div class="m-hero__txt">
+      <p class="eyebrow">Dermo-esthétique · Trois-Rivières</p>
+      <h1>Prenez une parenthèse.</h1>
+      <p>Des soins du visage G.M. Collin réalisés par Karianne, infirmière. On prend le temps de comprendre votre peau, puis on en prend soin.</p>
+      <div class="m-ctas"><button type="button" class="btn btn--clair" data-book="">Réserver un soin</button><a class="btn btn--fantome" href="#f-soins">Voir la carte des soins</a></div>
+      <ul class="f-trust"><li>Infirmière</li><li>Produits G.M. Collin</li><li>Analyse de peau incluse</li></ul>
+    </div>
+  </section>
+  <div class="w f-consult-w"><button type="button" class="a-consult f-consult" data-book="consult"><span>Nouvelle cliente?</span><strong>Consultation et analyse de peau&nbsp;· 25&nbsp;$</strong><i>Gratuite si vous réservez un soin ensuite →</i></button></div>
+  <div class="mq a-mq" aria-hidden="true"><div class="mq__t" data-mq="Hydratation|Éclat|Apaisement|Anti-âge|Peau saine|Douceur"></div></div>
+  <section class="a-soins" id="f-soins">
+    <div class="w a-soins__in">
+      <div class="a-soins__intro">
+        <p class="a-eyebrow">La carte</p>
+        <h2 class="a-h2">Des soins <em>choisis</em> pour votre peau</h2>
+        <p>Chaque soin du visage inclut l'analyse de votre peau. Tous les protocoles sont réalisés avec les produits G.M. Collin.</p>
+        <div class="a-soins__photo"><img class="photo" src="images/soin-masque.jpg" alt="Masque G.M. Collin appliqué sur le visage d'une cliente détendue"></div>
+        <div class="a-note">Pas certaine de votre choix? Commencez par la <button type="button" data-book="consult">consultation à 25 $</button>, gratuite si vous réservez un soin ensuite.</div>
+      </div>
+      <div id="f-menu" class="menu-soins"></div>
+    </div>
+  </section>
+  <section class="a-k" id="f-karianne">
+    <div class="w a-k__in">
+      <div class="a-k__photos">
+        <figure class="a-pola"><div class="a-pola__img"><div data-ph="portrait" data-label="Portrait de Karianne"></div></div><figcaption>Karianne, à la clinique</figcaption></figure>
+        <figure class="a-pola a-pola--2"><div class="a-pola__img"><img class="photo" src="images/soin-peeling.jpg" alt="Application d'un peeling au pinceau pendant un soin"></div><figcaption>En cabine</figcaption></figure>
+      </div>
+      <div class="a-k__txt">
+        <p class="a-script" aria-hidden="true">la beauté en douceur</p>
+        <h2 class="a-h2">Bonjour, moi c'est Karianne</h2>
+        <p>Infirmière de formation et esthéticienne spécialisée en soins du visage, j'ai ouvert La Parenthèse pour offrir des soins rigoureux dans un endroit où l'on prend le temps.</p>
+        <p>Mon regard d'infirmière me permet de tenir compte de vos sensibilités, de votre médication et de vos objectifs avant chaque soin. Ici, pas de protocole à la chaîne : tout commence par votre peau.</p>
+        <dl class="a-faits">
+          <div><dt>Formation</dt><dd>Infirmière</dd></div>
+          <div><dt>Spécialité</dt><dd>Soins du visage</dd></div>
+          <div><dt>Partenaire</dt><dd>G.M. Collin</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+  <section class="a-rituel" id="f-rituel">
+    <div class="w">
+      <div class="a-rituel__tete">
+        <div><p class="a-eyebrow">Le rituel maison</p><h2 class="a-h2">Prolonger le soin <em>chez vous</em></h2></div>
+        <p>Les produits G.M. Collin utilisés en cabine sont offerts à la clinique. Karianne vous prépare une routine simple, adaptée à votre peau, pour garder les résultats plus longtemps.</p>
+      </div>
+      <ol class="a-rituel__grille">
+        <li class="a-etape"><div class="a-niche"><div data-btl="pompe" data-nom="Nettoyant"></div></div><h3><span>01</span>Nettoyer</h3><p>Un nettoyant doux, matin et soir, choisi pour votre type de peau.</p></li>
+        <li class="a-etape"><div class="a-niche"><div data-btl="tube" data-nom="Exfoliant"></div></div><h3><span>02</span>Exfolier</h3><p>Une à deux fois par semaine, pour un grain de peau affiné.</p></li>
+        <li class="a-etape"><div class="a-niche"><div data-btl="pompe" data-nom="Sérum"></div></div><h3><span>03</span>Traiter</h3><p>Le sérum ciblé : hydratation, éclat ou anti-âge.</p></li>
+        <li class="a-etape"><div class="a-niche"><div data-btl="pot" data-nom="Crème"></div></div><h3><span>04</span>Protéger</h3><p>Une crème qui nourrit et protège votre barrière cutanée.</p></li>
+      </ol>
+      <p class="a-mini">Illustrations provisoires : les photos de vos produits les remplaceront.</p>
+    </div>
+  </section>
+  <section class="a-cit" aria-label="Citation">
+    <div class="w">
+      <blockquote>
+        <p><span aria-hidden="true">( </span>S'arrêter un instant, c'est déjà prendre soin de soi.<span aria-hidden="true"> )</span></p>
+        <footer>Karianne, fondatrice</footer>
+      </blockquote>
+    </div>
+  </section>
+  <section class="a-insta" aria-labelledby="f-insta-t">
+    <div class="w">
+      <div class="a-insta__tete"><h2 class="a-h2" id="f-insta-t">Suivez la parenthèse</h2><a href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener">@cliniquelaparenthese</a></div>
+      <div class="a-insta__grille">
+        <a href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener" aria-label="Voir sur Instagram"><img class="photo" src="images/soin-collagene.jpg" alt=""></a>
+        <a href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener" aria-label="Voir sur Instagram"><div data-ph="etoile"></div></a>
+        <a href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener" aria-label="Voir sur Instagram"><img class="photo" src="images/soin-masque.jpg" alt=""></a>
+        <a href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener" aria-label="Voir sur Instagram"><div data-ph="portrait"></div></a>
+        <a href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener" aria-label="Voir sur Instagram"><img class="photo" src="images/soin-peeling.jpg" alt=""></a>
+        <a href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener" aria-label="Voir sur Instagram"><div data-ph="etoile"></div></a>
+      </div>
+    </div>
+  </section>
+  <footer class="a-foot" id="f-contact">
+    <div class="w a-foot__in">
+      <div class="a-foot__marque"><svg class="logo-lp a-foot__logo" viewBox="0 0 428.54 105.29" aria-hidden="true" focusable="false"><use href="#logo-lp"/></svg><p>Dermo-esthétique par une infirmière.</p></div>
+      <div><h3>Adresse</h3><p data-info="adresse"></p><p><a data-info="carte" target="_blank" rel="noopener">Itinéraire</a></p></div>
+      <div><h3>Heures</h3><dl class="heures" data-info="heures"></dl></div>
+      <div><h3>Nous joindre</h3><p data-info="contact"></p><button type="button" class="a-btn a-btn--clair" data-book="">Prendre rendez-vous</button></div>
+    </div>
+    <div class="w a-foot__bas"><p>© 2026 Clinique La Parenthèse</p><p>Démo : portrait, photos produits et réservations sont provisoires.</p></div>
+  </footer>
+  <button type="button" class="flottant a-btn a-btn--plein" data-book="">Prendre rendez-vous</button>
+</main>
+
+<!-- ================= DÉPART — modèle d'origine ================= -->
 <main class="site" id="site-depart">
   <header class="a-head">
     <div class="w a-head__in">
@@ -974,17 +1093,17 @@ p{text-wrap:pretty}
       <div>
         <p class="a-eyebrow">Dermo-esthétique · Trois-Rivières</p>
         <h1 class="a-h1">Une <em>parenthèse</em> pour votre peau</h1>
-        <p class="a-lead">Des soins du visage G.M. Collin réalisés par Karianne, infirmière clinicienne. On prend le temps de comprendre votre peau, puis on en prend soin.</p>
+        <p class="a-lead">Des soins du visage G.M. Collin réalisés par Karianne, infirmière. On prend le temps de comprendre votre peau, puis on en prend soin.</p>
         <div class="a-ctas">
           <button type="button" class="a-btn a-btn--plein" data-book="">Réserver un soin</button>
           <a class="a-btn a-btn--ligne" href="#a-soins">Voir la carte des soins</a>
         </div>
-        <ul class="a-trust"><li>Infirmière clinicienne</li><li>Produits G.M. Collin</li><li>Analyse de peau incluse</li></ul>
+        <ul class="a-trust"><li>Infirmière</li><li>Produits G.M. Collin</li><li>Analyse de peau incluse</li></ul>
       </div>
       <div class="a-visuel">
         <div class="a-arche"><div data-ph="portrait" data-label="Photo de Karianne"></div></div>
-        <div class="a-badge" data-badge="INFIRMIÈRE CLINICIENNE · SOINS DU VISAGE · " aria-hidden="true"></div>
-        <button type="button" class="a-consult" data-book="consult"><span>Nouvelle cliente?</span><strong>Consultation et analyse de peau · 25 $</strong><i>Gratuite si vous réservez un soin ensuite →</i></button>
+        <div class="a-badge" data-badge="INFIRMIÈRE · SOINS DU VISAGE · G.M. COLLIN · " aria-hidden="true"></div>
+        <button type="button" class="a-consult" data-book="consult"><span>Nouvelle cliente?</span><strong>Consultation et analyse de peau&nbsp;· 25&nbsp;$</strong><i>Gratuite si vous réservez un soin ensuite →</i></button>
       </div>
     </div>
   </section>
@@ -998,7 +1117,7 @@ p{text-wrap:pretty}
         <div class="a-soins__photo"><img class="photo" src="images/soin-masque.jpg" alt="Masque G.M. Collin appliqué sur le visage d'une cliente détendue"></div>
         <div class="a-note">Pas certaine de votre choix? Commencez par la <button type="button" data-book="consult">consultation à 25 $</button>, gratuite si vous réservez un soin ensuite.</div>
       </div>
-      <div id="a-menu"></div>
+      <div id="a-menu" class="menu-soins"></div>
     </div>
   </section>
   <section class="a-k" id="a-karianne">
@@ -1010,10 +1129,10 @@ p{text-wrap:pretty}
       <div class="a-k__txt">
         <p class="a-script" aria-hidden="true">la beauté en douceur</p>
         <h2 class="a-h2">Bonjour, moi c'est Karianne</h2>
-        <p>Infirmière clinicienne de formation et esthéticienne spécialisée en soins du visage, j'ai ouvert La Parenthèse pour offrir des soins rigoureux dans un endroit où l'on prend le temps.</p>
+        <p>Infirmière de formation et esthéticienne spécialisée en soins du visage, j'ai ouvert La Parenthèse pour offrir des soins rigoureux dans un endroit où l'on prend le temps.</p>
         <p>Mon regard d'infirmière me permet de tenir compte de vos sensibilités, de votre médication et de vos objectifs avant chaque soin. Ici, pas de protocole à la chaîne : tout commence par votre peau.</p>
         <dl class="a-faits">
-          <div><dt>Formation</dt><dd>Infirmière clinicienne</dd></div>
+          <div><dt>Formation</dt><dd>Infirmière</dd></div>
           <div><dt>Spécialité</dt><dd>Soins du visage</dd></div>
           <div><dt>Partenaire</dt><dd>G.M. Collin</dd></div>
         </dl>
@@ -1058,7 +1177,7 @@ p{text-wrap:pretty}
   </section>
   <footer class="a-foot" id="a-contact">
     <div class="w a-foot__in">
-      <div class="a-foot__marque"><svg class="logo-lp a-foot__logo" viewBox="0 0 428.54 105.29" aria-hidden="true" focusable="false"><use href="#logo-lp"/></svg><p>Dermo-esthétique par une infirmière clinicienne.</p></div>
+      <div class="a-foot__marque"><svg class="logo-lp a-foot__logo" viewBox="0 0 428.54 105.29" aria-hidden="true" focusable="false"><use href="#logo-lp"/></svg><p>Dermo-esthétique par une infirmière.</p></div>
       <div><h3>Adresse</h3><p data-info="adresse"></p><p><a data-info="carte" target="_blank" rel="noopener">Itinéraire</a></p></div>
       <div><h3>Heures</h3><dl class="heures" data-info="heures"></dl></div>
       <div><h3>Nous joindre</h3><p data-info="contact"></p><button type="button" class="a-btn a-btn--clair" data-book="">Prendre rendez-vous</button></div>
@@ -1125,14 +1244,15 @@ p{text-wrap:pretty}
   ];
   const parId = Object.fromEntries(SOINS.map((s) => [s.id, s]));
 
-  const MODELES = ["atelier", "magazine", "cocon", "depart"];
+  const MODELES = ["fusion", "depart", "magazine", "atelier", "cocon"];
   const DESC = {
-    atelier: "Atelier : écran partagé, photo fixe et soins détaillés étape par étape",
+    fusion: "Fusion : la disposition du modèle de départ avec la grande photo du Magazine",
+    depart: "Départ : le modèle de départ, tel quel",
     magazine: "Magazine : grandes photos pleine largeur, mise en page de revue beauté",
+    atelier: "Atelier : écran partagé, photo fixe et soins détaillés étape par étape",
     cocon: "Cocon : cartes douces, réservation rapide, filtres et questions fréquentes",
-    depart: "Départ : le modèle d'origine, pour comparer",
   };
-  let actif = "atelier";
+  let actif = "fusion";
 
   /* ---------- Éléments générés ---------- */
   const SVG = {
@@ -1212,7 +1332,7 @@ p{text-wrap:pretty}
 
   /* ---------- Départ : carte des soins façon menu ---------- */
   const GROUPES = [["Pour commencer", ["consult"]], ["Soins du visage", ["oxy", "algo", "hydro", "colla"]], ["Peeling", ["peel"]], ["Soin du corps", ["dos"]]];
-  $("#a-menu").innerHTML = GROUPES.map(([titre, ids]) => `
+  const menuSoins = GROUPES.map(([titre, ids]) => `
     <div class="a-groupe"><h3 class="a-groupe__t">${titre}</h3>${ids.map((id) => {
       const s = parId[id];
       return `<article class="a-item">
@@ -1223,6 +1343,7 @@ p{text-wrap:pretty}
         <div class="a-item__meta"><b>${esc(s.duree)}</b><span>${s.pour.map(esc).join(" · ")}</span><button type="button" class="a-reserver" data-book="${s.id}">Réserver<span class="sr"> : ${esc(s.nom)}</span></button></div>
       </article>`;
     }).join("")}${titre === "Soins du visage" ? `<p class="a-ajout"><span>Ajout d'un peeling à l'Algomask, l'Hydrolifting, le Collagène 90+ ou au soin du dos</span><strong>+30&nbsp;$</strong></p>` : ""}</div>`).join("");
+  $$(".menu-soins").forEach((el) => { el.innerHTML = menuSoins; });
 
   /* ---------- Remplissage commun (après les rendus) ---------- */
   $$("[data-ph]").forEach((el) => {
@@ -1517,7 +1638,7 @@ p{text-wrap:pretty}
   });
 
   /* ---------- Copies du modèle dans les deux écrans ---------- */
-  const NOMS = { atelier: ["Modèle 1", "Atelier"], magazine: ["Modèle 2", "Magazine"], cocon: ["Modèle 3", "Cocon"], depart: ["Pour comparer", "Modèle de départ"] };
+  const NOMS = { fusion: ["Selon les commentaires de Karianne", "Fusion"], depart: ["Son choix tel quel", "Modèle de départ"], magazine: ["Autre modèle", "Magazine"], atelier: ["Autre modèle", "Atelier"], cocon: ["Autre modèle", "Cocon"] };
   const defBureau = $("#defile-bureau");
   const defTel = $("#defile-tel");
   function cloner(nom, prefixe) {
@@ -1610,6 +1731,6 @@ p{text-wrap:pretty}
   });
   const hash = decodeURIComponent((location.hash || "").slice(1));
   mesurer();
-  afficher(MODELES.includes(hash) ? hash : "atelier");
+  afficher(MODELES.includes(hash) ? hash : "fusion");
 })();
 </script>

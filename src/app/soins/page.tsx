@@ -59,7 +59,7 @@ export default function PageSoins() {
                     {consultation.nom}
                   </h2>
                   <p className="mt-4 max-w-xl text-sm leading-relaxed text-creme/75 sm:text-base">
-                    {consultation.accroche} Un regard d&rsquo;infirmière clinicienne sur votre
+                    {consultation.accroche} Un regard d&rsquo;infirmière sur votre
                     peau, pour repartir avec un plan clair — en clinique comme à la maison.
                   </p>
                   <p className="mt-5 font-sans text-creme">
