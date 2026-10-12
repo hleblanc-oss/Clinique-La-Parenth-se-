@@ -13,7 +13,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 Brief complet : voir README.md. Règles non négociables pour toute contribution :
 
 ## Palette (validée par la cliente)
-- **Palette en révision (12 oct. 2026)** : à la demande du développeur, 3 versions brunes inspirées du logo officiel (`public/logo/`) sont à l'essai dans `demos/directions.html` (Nude, Mocha, Sauge & Cannelle). L'interdiction du brun ci-dessous ne s'applique pas à ces démos; cette section sera réécrite quand la cliente aura choisi.
+- **Palette en révision (12 oct. 2026)** : à la demande du développeur, des démos brunes inspirées du logo officiel (`public/logo/`) sont à l'essai dans `demos/directions.html` (2 options soumises à la cliente : Fusion et Départ). L'interdiction du brun ci-dessous ne s'applique pas à ces démos; cette section sera réécrite quand la cliente aura choisi.
 - Strictement crème (#F8F4EF) + sauge (#A3B29A / clair #E4E9DF / foncé #5F7055) + noir (#211D1A), corps de texte #2F332C.
 - **INTERDIT : brun/taupe/beige, et blanc pur (#FFFFFF).** La palette Tailwind par défaut est retirée dans `globals.css` — ne pas la réintroduire.
 - `--sauge` (#A3B29A) jamais pour du texte sur fond clair (décoratif seulement); texte vert = `--sauge-fonce`.

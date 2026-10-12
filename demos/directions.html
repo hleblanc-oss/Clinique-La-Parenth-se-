@@ -3,8 +3,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@400;500;600&family=Tangerine:wght@700&display=swap">
 <style>
-/* Trois modèles de mise en page dans le style éditorial « La Parenthèse ».
-   Même palette pour tous (couleurs du logo officiel) afin de comparer uniquement la structure :
+/* Les deux options retenues par Karianne, dans le style éditorial « La Parenthèse ».
+   Même palette pour les deux (couleurs du logo officiel) afin de comparer uniquement la structure :
    les couleurs se changent ensuite d'un seul endroit (bloc :root ci-dessous).
    Disposition : barre de choix fixe en haut, puis le site complet du modèle actif. */
 :root{
@@ -45,17 +45,12 @@ p{text-wrap:pretty}
 .eyebrow{margin:0 0 16px;font:500 12px/1.4 var(--p-sans);letter-spacing:.24em;text-transform:uppercase;color:var(--accent-txt)}
 .script{font:700 clamp(56px,6cqi,80px)/1 var(--p-script);color:var(--accent-txt);margin:0}
 
-/* Boutons communs aux nouveaux modèles */
+/* Boutons communs */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:999px;padding:15px 28px;font:500 12.5px/1 var(--p-sans);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;cursor:pointer;white-space:nowrap;transition:background-color .25s,color .25s,border-color .25s}
-.btn--plein{background:var(--cta);color:var(--cta-txt)}
-.btn--plein:hover{background:var(--cta-hover)}
-.btn--ligne{border-color:var(--accent-txt);color:var(--accent-txt);background:transparent}
-.btn--ligne:hover{background:var(--fond-alt);color:var(--encre)}
 .btn--clair{background:var(--fond);color:var(--encre)}
 .btn--clair:hover{background:var(--peche)}
 .btn--fantome{border-color:rgba(251,244,238,.6);color:var(--fond);background:transparent}
 .btn--fantome:hover{background:rgba(251,244,238,.14)}
-.btn--petit{padding:11px 20px;font-size:11.5px}
 .lien{border:0;background:none;padding:6px 0;border-bottom:1px solid var(--accent);font:500 12px/1 var(--p-sans);letter-spacing:.14em;text-transform:uppercase;color:var(--encre);cursor:pointer;text-decoration:none;transition:color .25s,border-color .25s}
 .lien:hover{color:var(--accent-txt);border-color:var(--accent-txt)}
 
@@ -69,7 +64,6 @@ p{text-wrap:pretty}
 .choix__tabs button:hover{border-color:rgba(247,239,232,.6)}
 .choix__tabs button[aria-selected="true"]{background:var(--choix-encre);color:var(--choix-fond);border-color:var(--choix-encre)}
 .choix__tabs button:focus-visible{outline:2px solid var(--choix-encre);outline-offset:2px}
-.choix__tabs .choix__ref{border-style:dashed;opacity:.85}
 .choix__num{opacity:.55;font-variant-numeric:tabular-nums}
 @media (max-width:760px){.choix__t{display:none}.choix__tabs{margin-inline:0;flex-shrink:1;gap:4px}.choix__tabs button{padding:8px 10px;font-size:12.5px}.choix__num{display:none}}
 
@@ -109,296 +103,25 @@ p{text-wrap:pretty}
 .heures dt,.heures dd{margin:0}
 .site .flottant{display:none}
 
-/* ================= 1 · ATELIER — écran partagé ================= */
-.t-grille{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr)}
-.t-panneau{align-self:start;position:sticky;top:var(--haut);height:var(--ecran-h);overflow:hidden;color:var(--fond)}
-.t-panneau__img{position:absolute;inset:0}
-.t-panneau__img img{animation:t-respire 18s ease-in-out infinite alternate}
-.t-panneau__img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(58,42,34,.6) 0%,rgba(58,42,34,.12) 28%,rgba(58,42,34,.2) 52%,rgba(58,42,34,.88) 100%)}
-.t-panneau__haut{position:absolute;top:34px;left:clamp(24px,3.4cqi,48px);right:clamp(24px,3.4cqi,48px)}
-.t-panneau__logo{width:200px;fill:var(--fond);color:var(--peche)}
-.t-panneau__bas{position:absolute;left:clamp(24px,3.4cqi,48px);right:clamp(24px,3.4cqi,48px);bottom:clamp(28px,4cqi,48px);display:flex;flex-direction:column;align-items:flex-start;gap:20px}
-.t-panneau__bas .eyebrow{color:var(--peche);margin:0}
-.t-slogan{margin:0;font:italic 400 clamp(36px,3.8cqi,58px)/1.02 var(--p-serif);max-width:11em}
-.t-panneau__info{display:flex;flex-wrap:wrap;gap:6px 16px;margin:0;font:500 11.5px/1.4 var(--p-sans);letter-spacing:.16em;text-transform:uppercase;color:var(--peche)}
-.t-contenu{min-width:0;background:var(--fond)}
-.t-head{position:sticky;top:var(--haut);z-index:40;display:flex;align-items:center;gap:26px;min-height:72px;padding-inline:clamp(20px,4cqi,64px);background:color-mix(in srgb,var(--fond) 92%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--ligne)}
-.t-head__logo{display:none}
-.t-head__logo svg{width:140px;fill:var(--brun);color:var(--caramel)}
-.t-nav{display:flex;gap:26px}
-.t-nav a{font:500 12px/1 var(--p-sans);letter-spacing:.16em;text-transform:uppercase;color:var(--encre);text-decoration:none;padding-block:8px;transition:color .25s}
-.t-nav a:hover{color:var(--accent-txt)}
-.t-head .btn{margin-left:auto}
-.t-sec{padding:clamp(56px,7cqi,96px) clamp(20px,4cqi,64px);border-bottom:1px solid var(--ligne)}
-.t-h2{margin:0;font:400 clamp(38px,4.2cqi,58px)/1 var(--p-serif);color:var(--encre)}
-.t-h2 em{font-style:italic;color:var(--accent-txt)}
-.t-grand{margin:0;font:400 clamp(27px,2.8cqi,38px)/1.28 var(--p-serif);color:var(--encre);max-width:22em}
-.t-grand em{color:var(--accent-txt)}
-.t-faits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:44px 0 0;border-top:1px solid var(--ligne)}
-.t-faits div{padding:20px 16px 0 0}
-.t-faits div+div{border-left:1px solid var(--ligne);padding-left:18px}
-.t-faits dt{font:500 26px/1.1 var(--p-serif);color:var(--encre)}
-.t-faits dd{margin:6px 0 0;font-size:13.5px;color:var(--accent-txt)}
-.t-titre{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px 24px;margin-bottom:30px}
-.t-titre p{margin:0;font-size:14.5px;color:var(--accent-txt);max-width:24em}
-.t-soin{border-top:1px solid var(--ligne)}
-.t-soin:last-child{border-bottom:1px solid var(--ligne)}
-.t-soin summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:4px 22px;align-items:center;padding:22px 0}
-.t-soin summary::-webkit-details-marker{display:none}
-.t-soin h3{margin:0;font:500 clamp(24px,2.4cqi,30px)/1.15 var(--p-serif);color:var(--encre)}
-.t-soin__sous{display:block;margin-top:2px;font:italic 400 17px/1.3 var(--p-serif);color:var(--accent-txt)}
-.t-soin__prix{font:500 18px/1 var(--p-sans);color:var(--encre);font-variant-numeric:tabular-nums;white-space:nowrap}
-.t-soin__plus{position:relative;width:36px;height:36px;border-radius:50%;border:1px solid var(--ligne);transition:transform .35s cubic-bezier(.22,1,.36,1),background-color .3s}
-.t-soin__plus::before,.t-soin__plus::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.5px;background:var(--encre);transform:translate(-50%,-50%)}
-.t-soin__plus::after{transform:translate(-50%,-50%) rotate(90deg)}
-.t-soin[open] .t-soin__plus{transform:rotate(45deg);background:var(--fond-alt)}
-.t-soin summary:hover h3{color:var(--accent-txt)}
-.t-soin__corps{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:28px 36px;padding:0 0 30px;animation:t-ouvre .45s cubic-bezier(.22,1,.36,1)}
-.t-soin__corps>div>p{margin:0;line-height:1.75}
-.t-soin__meta{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px}
-.t-chip{padding:6px 12px;border-radius:999px;background:var(--fond-alt);font-size:12.5px;color:var(--accent-txt)}
-.t-etapes__t{margin:0 0 8px;font:500 11.5px/1 var(--p-sans);letter-spacing:.2em;text-transform:uppercase;color:var(--accent-txt)}
-.t-etapes{margin:0;padding:0;list-style:none;counter-reset:etape}
-.t-etapes li{counter-increment:etape;display:flex;gap:12px;padding:8px 0;border-bottom:1px dashed var(--ligne);font-size:14.5px;line-height:1.45}
-.t-etapes li::before{content:counter(etape,decimal-leading-zero);flex:none;min-width:22px;font:500 12px/1.75 var(--p-sans);color:var(--caramel)}
-@container (max-width:640px){.t-soin__corps{grid-template-columns:minmax(0,1fr)}.t-soin summary{gap:4px 14px}}
-.t-k__in{display:grid;grid-template-columns:clamp(170px,18cqi,240px) minmax(0,1fr);gap:clamp(28px,4cqi,52px);align-items:center}
-.t-k__rond{padding:10px;border-radius:50%;border:1px solid var(--caramel)}
-.t-k__rond>div{aspect-ratio:1;border-radius:50%;overflow:hidden}
-.t-k p{line-height:1.8;max-width:36em}
-.t-k .script{margin-top:6px}
-@container (max-width:560px){.t-k__in{grid-template-columns:minmax(0,1fr)}.t-k__rond{width:min(70%,240px)}}
-.t-savoir__grille{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:32px}
-.t-carte{padding:26px;border-radius:24px;background:var(--fond-alt)}
-.t-carte h3{margin:0;font:500 26px/1.1 var(--p-serif);color:var(--encre)}
-.t-carte__quand{margin:4px 0 14px;font:italic 400 17px/1.3 var(--p-serif);color:var(--accent-txt)}
-.t-carte ul{margin:0;padding-left:18px;display:grid;gap:8px;font-size:14.5px;line-height:1.5}
-.t-carte ul li::marker{color:var(--caramel)}
-.t-carte--large{grid-column:1/-1;background:var(--brun);color:var(--fond)}
-.t-carte--large h3{color:var(--fond)}
-.t-carte--large p{margin:10px 0 0;line-height:1.7;max-width:46em}
-@container (max-width:640px){.t-savoir__grille{grid-template-columns:minmax(0,1fr)}}
-.t-infos{margin:30px 0 0;display:grid;border-top:1px solid var(--ligne)}
-.t-infos>div{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding-block:16px;border-bottom:1px solid var(--ligne)}
-.t-infos dt{font:500 11.5px/1.7 var(--p-sans);letter-spacing:.18em;text-transform:uppercase;color:var(--accent-txt)}
-.t-infos dd{margin:0;font:500 20px/1.4 var(--p-serif);color:var(--encre)}
-.t-infos dd a{color:var(--encre)}
-.t-infos .heures{gap:2px}
-.t-infos .heures div{justify-content:flex-start;gap:12px}
-.t-infos .heures dt{font:500 20px/1.4 var(--p-serif);letter-spacing:0;text-transform:none;color:var(--encre);min-width:6.5em}
-.t-infos .heures dd{font-size:20px}
-.t-contact .btn{margin-top:30px}
-.t-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 20px;padding:26px clamp(20px,4cqi,64px);font-size:12.5px;color:var(--accent-txt)}
-.t-foot p{margin:0}
-@container (max-width:560px){.t-infos>div{grid-template-columns:minmax(0,1fr);gap:4px}}
-@container (max-width:900px){
-  .t-grille{grid-template-columns:minmax(0,1fr)}
-  .t-panneau{position:relative;top:auto;height:var(--panneau-mobile)}
-  .t-head__logo{display:block}
-  .t-nav{display:none}
-}
-
-/* ================= 2 · MAGAZINE — revue beauté ================= */
-.m-head{position:sticky;top:var(--haut);z-index:50;background:color-mix(in srgb,var(--fond) 94%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--ligne)}
-.m-head__in{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:20px;min-height:86px}
-.m-nav{display:flex;align-items:center;gap:28px}
-.m-nav--d{justify-content:flex-end}
-.m-nav a:not(.btn){font:500 12px/1 var(--p-sans);letter-spacing:.18em;text-transform:uppercase;color:var(--encre);text-decoration:none;padding-block:8px;transition:color .25s}
-.m-nav a:not(.btn):hover{color:var(--accent-txt)}
-.m-logo{display:block}
-.m-logo svg{width:206px;fill:var(--brun);color:var(--caramel)}
-@container (max-width:980px){.m-head__in{grid-template-columns:auto minmax(0,1fr);min-height:70px}.m-nav--g{display:none}.m-nav--d a:not(.btn){display:none}.m-logo svg{width:150px}}
-.m-hero{position:relative;display:grid;align-items:end;justify-items:center;min-height:min(var(--vh80),780px);overflow:hidden;text-align:center;color:var(--fond)}
-.m-hero__img{position:absolute;inset:0}
-.m-hero__img img{object-position:50% 30%;animation:a-zoom 1.4s cubic-bezier(.22,1,.36,1) both}
-.m-hero__img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(58,42,34,.18) 0%,rgba(58,42,34,.3) 40%,rgba(58,42,34,.86) 100%)}
-.m-hero__txt{position:relative;padding:0 20px clamp(48px,7cqi,92px);max-width:980px}
-.m-hero .eyebrow{color:var(--peche)}
-.m-hero h1{margin:0;font:italic 400 clamp(58px,10.5cqi,156px)/.88 var(--p-serif);letter-spacing:-.02em;color:var(--fond)}
-.m-hero p{margin:24px auto 0;max-width:34em;font-size:clamp(16px,1.6cqi,18px);line-height:1.7;color:var(--peche)}
-.m-hero .m-ctas{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px}
-.m-manif{padding-block:clamp(84px,11cqi,150px)}
-.m-manif .w{max-width:860px}
-.m-manif p{margin:0;font:400 clamp(21px,2.1cqi,26px)/1.65 var(--p-serif);color:var(--encre)}
-.m-manif p.m-lettrine::first-letter{float:left;margin:.08em .12em 0 0;font:italic 400 5.2em/.78 var(--p-serif);color:var(--accent-txt)}
-.m-manif .m-sign{margin-top:30px;font:500 12px/1.5 var(--p-sans);letter-spacing:.2em;text-transform:uppercase;color:var(--accent-txt)}
-.m-sec-tete{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 64px;align-items:end;padding-bottom:24px;border-bottom:1px solid var(--encre)}
-.m-h2{margin:0;font:400 clamp(44px,6cqi,84px)/.95 var(--p-serif);letter-spacing:-.02em;color:var(--encre)}
-.m-h2 em{font-style:italic;color:var(--accent-txt)}
-.m-sec-tete p{margin:0;line-height:1.7;max-width:30em}
-@container (max-width:800px){.m-sec-tete{grid-template-columns:minmax(0,1fr)}}
-.m-sig{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:center;gap:clamp(32px,6cqi,96px);padding-block:clamp(48px,6cqi,80px);border-bottom:1px solid var(--ligne)}
-.m-sig:nth-child(even) .m-sig__img{order:2}
-.m-sig__img{aspect-ratio:4/3.3;overflow:hidden}
-.m-sig__num{display:block;font:italic 400 clamp(64px,7cqi,104px)/.8 var(--p-serif);color:var(--sable)}
-.m-sig h3{margin:14px 0 0;font:400 clamp(38px,4.2cqi,58px)/1 var(--p-serif);color:var(--encre)}
-.m-sig__sous{margin:8px 0 0;font:italic 400 20px/1.3 var(--p-serif);color:var(--accent-txt)}
-.m-sig__txt{margin:18px 0 0;line-height:1.75;max-width:32em}
-.m-sig__info{display:flex;flex-wrap:wrap;gap:12px 40px;margin:26px 0;padding-block:16px;border-block:1px solid var(--ligne)}
-.m-sig__info dt{font:500 11px/1.4 var(--p-sans);letter-spacing:.2em;text-transform:uppercase;color:var(--accent-txt)}
-.m-sig__info dd{margin:4px 0 0;font:500 24px/1.1 var(--p-serif);color:var(--encre)}
-@container (max-width:800px){.m-sig{grid-template-columns:minmax(0,1fr)}.m-sig:nth-child(even) .m-sig__img{order:0}}
-.m-aussi{padding-block:clamp(40px,5cqi,64px) clamp(84px,10cqi,130px)}
-.m-aussi h3{margin:0 0 6px;font:500 12px/1 var(--p-sans);letter-spacing:.24em;text-transform:uppercase;color:var(--accent-txt)}
-.m-carte{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 56px}
-.m-ligne{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 18px;align-items:baseline;padding-block:22px;border-bottom:1px solid var(--ligne)}
-.m-ligne h4{margin:0;font:500 26px/1.15 var(--p-serif);color:var(--encre)}
-.m-ligne__prix{font:500 18px/1 var(--p-sans);color:var(--encre);font-variant-numeric:tabular-nums}
-.m-ligne p{grid-column:1/-1;margin:0;font-size:14.5px;line-height:1.6}
-.m-ligne__bas{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;font:italic 400 17px/1.3 var(--p-serif);color:var(--accent-txt)}
-@container (max-width:800px){.m-carte{grid-template-columns:minmax(0,1fr)}}
-.m-chiffres{background:var(--brun);color:var(--fond);padding-block:clamp(60px,8cqi,96px)}
-.m-chiffres__grille{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px}
-.m-chiffre{padding-top:20px;border-top:1px solid rgba(251,244,238,.3)}
-.m-chiffre b{display:block;font:400 clamp(46px,5.2cqi,72px)/1 var(--p-serif);color:var(--peche)}
-.m-chiffre span{display:block;margin-top:12px;font-size:14.5px;line-height:1.55;color:var(--fond-alt);max-width:15em}
-@container (max-width:800px){.m-chiffres__grille{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.m-k{padding-block:clamp(84px,11cqi,150px)}
-.m-k__in{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(40px,7cqi,110px);align-items:center}
-.m-k__portrait{aspect-ratio:3/4;overflow:hidden}
-.m-k__cit{margin:0;font:italic 400 clamp(32px,3.6cqi,50px)/1.18 var(--p-serif);color:var(--encre)}
-.m-k__cit span{color:var(--caramel)}
-.m-k__bio{margin:28px 0 0;line-height:1.8;max-width:34em}
-.m-k__sign{margin:24px 0 0;font:500 12px/1.6 var(--p-sans);letter-spacing:.2em;text-transform:uppercase;color:var(--accent-txt)}
-@container (max-width:800px){.m-k__in{grid-template-columns:minmax(0,1fr)}.m-k__portrait{max-width:420px}}
-.m-prod{background:var(--fond-alt);padding-block:clamp(70px,9cqi,120px)}
-.m-prod__grille{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;margin-top:40px}
-.m-prod__item{display:flex;flex-direction:column;align-items:center;gap:18px;padding:44px 16px 28px;background:var(--fond)}
-.m-prod__item .btl{width:min(46%,110px)}
-.m-prod__item h3{margin:0;font:500 22px/1.2 var(--p-serif);color:var(--encre);text-align:center}
-.m-prod__item p{margin:-12px 0 0;font-size:13px;color:var(--accent-txt);text-align:center}
-.m-prod .m-mini{margin:20px 0 0;font-size:13px;color:var(--accent-txt)}
-@container (max-width:800px){.m-prod__grille{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.m-insta__tete{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:14px;padding-block:clamp(60px,8cqi,100px) 28px}
-.m-insta{display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
-.m-insta a{display:block;aspect-ratio:1;overflow:hidden}
-.m-insta a img,.m-insta a .ph{transition:transform .6s cubic-bezier(.22,1,.36,1)}
-.m-insta a:hover img,.m-insta a:hover .ph{transform:scale(1.05)}
-@container (max-width:800px){.m-insta{grid-template-columns:repeat(3,minmax(0,1fr))}}
-.m-foot{background:var(--encre);color:var(--fond);padding-block:clamp(64px,8cqi,96px) 28px}
-.m-foot__logo{width:min(100%,760px);margin:0 auto clamp(48px,6cqi,72px);fill:var(--fond);color:var(--caramel)}
-.m-foot__in{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px;padding-top:32px;border-top:1px solid rgba(251,244,238,.2)}
-.m-foot h3{margin:0 0 12px;font:500 11px/1 var(--p-sans);letter-spacing:.22em;text-transform:uppercase;color:var(--sable)}
-.m-foot p,.m-foot dt,.m-foot dd{margin:0;font-size:14.5px;line-height:1.7}
-.m-foot a{color:var(--fond)}
-.m-foot__bas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;margin-top:44px;font-size:12.5px;color:var(--sable)}
-.m-foot__bas p{margin:0}
-@container (max-width:800px){.m-foot__in{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@container (max-width:480px){.m-foot__in{grid-template-columns:minmax(0,1fr)}}
-
-/* ================= 3 · COCON — cartes douces ================= */
-.c-head{position:sticky;top:calc(var(--haut) + 12px);z-index:50;margin-top:12px;padding-inline:clamp(12px,3cqi,32px)}
-.c-head__in{max-width:1180px;margin-inline:auto;display:flex;align-items:center;gap:16px;padding:9px 9px 9px 24px;border-radius:999px;background:color-mix(in srgb,var(--fond) 84%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--ligne);box-shadow:0 12px 30px -20px rgba(58,42,34,.45)}
-.c-logo svg{width:150px;fill:var(--brun);color:var(--caramel)}
-.c-nav{display:flex;gap:2px;margin-inline:auto}
-.c-nav a{padding:10px 16px;border-radius:999px;font:500 14px/1 var(--p-sans);color:var(--encre);text-decoration:none;transition:background-color .25s}
-.c-nav a:hover{background:var(--fond-alt)}
-.c-head .btn{margin-left:auto;padding:13px 22px}
-@container (max-width:900px){.c-nav{display:none}.c-head__in{padding-left:18px}.c-logo svg{width:132px}}
-.c-hero{padding-top:22px}
-.c-hero__boite{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);border-radius:40px;overflow:hidden;background:var(--fond-alt)}
-.c-hero__txt{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:20px;padding:clamp(32px,5cqi,72px) clamp(28px,5cqi,72px) clamp(80px,9cqi,120px)}
-.c-hero__txt .eyebrow{margin:0}
-.c-hero h1{margin:0;font:400 clamp(44px,5.6cqi,78px)/1.02 var(--p-serif);color:var(--encre)}
-.c-hero h1 em{font-style:italic;color:var(--accent-txt)}
-.c-hero__txt>p{margin:0;max-width:30em;font-size:17px;line-height:1.7}
-.c-puces{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-.c-puces li{padding:8px 14px;border-radius:999px;background:var(--fond);font-size:13px;color:var(--accent-txt)}
-.c-hero__img{position:relative;min-height:340px}
-.c-hero__img img{position:absolute;inset:0;object-position:40% 50%}
-.c-hero__bulle{position:absolute;left:24px;bottom:84px;display:flex;align-items:center;gap:12px;padding:10px 16px 10px 10px;border-radius:999px;background:var(--fond);box-shadow:0 16px 30px -18px rgba(58,42,34,.55);font-size:13.5px;line-height:1.3;color:var(--encre)}
-.c-hero__bulle span:first-child{width:42px;height:42px;border-radius:50%;overflow:hidden;flex:none}
-.c-hero__bulle b{display:block;font:500 17px/1.1 var(--p-serif)}
-@container (max-width:860px){.c-hero__boite{grid-template-columns:minmax(0,1fr)}.c-hero__img{min-height:300px;order:-1}.c-hero__txt{padding-bottom:96px}.c-hero__bulle{bottom:20px}}
-.c-widget{position:relative;z-index:2;max-width:900px;margin:-60px auto 0;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:16px 20px;align-items:end;padding:22px;border-radius:30px;background:var(--fond);border:1px solid var(--ligne);box-shadow:0 30px 60px -32px rgba(58,42,34,.5)}
-.c-widget label{display:block;margin:0 0 8px 6px;font:500 11.5px/1 var(--p-sans);letter-spacing:.16em;text-transform:uppercase;color:var(--accent-txt)}
-.c-select-w{position:relative}
-.c-select-w::after{content:"";position:absolute;right:20px;top:50%;width:8px;height:8px;border-right:1.5px solid var(--encre);border-bottom:1.5px solid var(--encre);transform:translateY(-70%) rotate(45deg);pointer-events:none}
-.c-select{width:100%;appearance:none;-webkit-appearance:none;padding:15px 44px 15px 20px;border-radius:999px;border:1px solid var(--ligne);background:var(--fond-alt);color:var(--encre);font:500 15px/1.2 var(--p-sans);cursor:pointer}
-.c-dispo{margin:0;padding:0 6px 12px;font-size:14px;line-height:1.45;color:var(--texte)}
-.c-dispo b{display:block;font:500 19px/1.2 var(--p-serif);color:var(--encre)}
-.c-widget .btn{padding-block:17px}
-@container (max-width:860px){.c-widget{grid-template-columns:minmax(0,1fr);margin:-48px 12px 0}.c-dispo{padding-bottom:0}}
-.c-sec{padding-block:clamp(64px,8cqi,110px)}
-.c-sec--serre{padding-top:0}
-.c-h2{margin:0;font:400 clamp(38px,4.6cqi,60px)/1.02 var(--p-serif);color:var(--encre)}
-.c-h2 em{font-style:italic;color:var(--accent-txt)}
-.c-tete{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:16px 32px;margin-bottom:30px}
-.c-tete p{margin:0;max-width:30em;line-height:1.7}
-.c-etapes__grille{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;list-style:none;margin:0;padding:0}
-.c-etape{padding:30px 28px;border-radius:30px;background:var(--fond-alt)}
-.c-etape__num{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--fond);font:italic 500 22px/1 var(--p-serif);color:var(--accent-txt)}
-.c-etape h3{margin:20px 0 8px;font:500 27px/1.1 var(--p-serif);color:var(--encre)}
-.c-etape p{margin:0;font-size:15px;line-height:1.65}
-@container (max-width:860px){.c-etapes__grille{grid-template-columns:minmax(0,1fr)}}
-.c-filtres{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
-.c-filtre{padding:11px 18px;border-radius:999px;border:1px solid var(--ligne);background:transparent;color:var(--encre);font:500 14px/1 var(--p-sans);white-space:nowrap;cursor:pointer;transition:background-color .25s,color .25s,border-color .25s}
-.c-filtre:hover{border-color:var(--accent-txt)}
-.c-filtre[aria-pressed="true"]{background:var(--encre);border-color:var(--encre);color:var(--fond)}
-.c-cartes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:26px}
-.c-carte{display:flex;flex-direction:column;border-radius:30px;overflow:hidden;background:var(--fond);border:1px solid var(--ligne);transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s;animation:c-apparait .45s cubic-bezier(.22,1,.36,1)}
-.c-carte:hover{transform:translateY(-4px);box-shadow:0 26px 44px -30px rgba(58,42,34,.5)}
-.c-carte__visuel{position:relative;height:200px;display:grid;place-items:center;overflow:hidden;background:var(--fond-alt)}
-.c-carte__visuel img{position:absolute;inset:0}
-.c-carte__visuel--sable{background:var(--sable)}
-.c-carte__visuel .btl{width:86px}
-.c-carte__prix{position:absolute;top:14px;right:14px;padding:8px 13px;border-radius:999px;background:var(--fond);font:500 14px/1 var(--p-sans);color:var(--encre)}
-.c-carte__badge{position:absolute;top:14px;left:14px;padding:8px 13px;border-radius:999px;background:var(--brun);font:500 12px/1 var(--p-sans);color:var(--fond)}
-.c-carte__corps{display:flex;flex-direction:column;gap:10px;flex:1;padding:22px 22px 24px}
-.c-carte h3{margin:0;font:500 27px/1.08 var(--p-serif);color:var(--encre)}
-.c-carte__sous{margin:-4px 0 0;font:italic 400 17px/1.3 var(--p-serif);color:var(--accent-txt)}
-.c-carte__txt{margin:0;font-size:14.5px;line-height:1.6}
-.c-tags{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
-.c-tags li{padding:5px 11px;border-radius:999px;background:var(--fond-alt);font-size:12px;color:var(--accent-txt)}
-.c-carte__bas{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:auto;padding-top:12px}
-.c-duree{font-size:13.5px;color:var(--accent-txt)}
-.c-vide{grid-column:1/-1;margin:0;padding:28px;border-radius:24px;background:var(--fond-alt);text-align:center}
-@container (max-width:980px){.c-cartes{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@container (max-width:620px){.c-cartes{grid-template-columns:minmax(0,1fr)}}
-.c-k__boite{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(28px,5cqi,72px);align-items:center;padding:clamp(28px,5cqi,64px);border-radius:40px;background:var(--fond-alt)}
-.c-k__rond{width:clamp(190px,22cqi,290px);aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:0 0 0 10px var(--fond)}
-.c-k__boite p{line-height:1.8;max-width:36em}
-.c-k__boite .c-puces{margin-top:18px}
-@container (max-width:760px){.c-k__boite{grid-template-columns:minmax(0,1fr)}.c-k__rond{justify-self:center}}
-.c-faq__in{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(32px,5cqi,72px);align-items:start}
-.c-contact{margin-top:28px;padding:28px;border-radius:30px;background:var(--brun);color:var(--fond)}
-.c-contact h3{margin:0 0 14px;font:500 26px/1.1 var(--p-serif)}
-.c-contact p{margin:0 0 6px;font-size:15px;line-height:1.6}
-.c-contact a{color:var(--fond)}
-.c-contact .heures{margin:14px 0 20px;font-size:15px}
-.c-q{margin-bottom:10px;border-radius:22px;background:var(--fond-alt)}
-.c-q summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 24px;font:500 21px/1.25 var(--p-serif);color:var(--encre)}
-.c-q summary::-webkit-details-marker{display:none}
-.c-q summary::after{content:"";flex:none;width:30px;height:30px;border-radius:50%;background:linear-gradient(var(--encre),var(--encre)) center/11px 1.5px no-repeat var(--fond)}
-.c-q:not([open]) summary::after{background:linear-gradient(var(--encre),var(--encre)) center/11px 1.5px no-repeat,linear-gradient(var(--encre),var(--encre)) center/1.5px 11px no-repeat var(--fond)}
-.c-q__r{padding:0 24px 22px;font-size:15px;line-height:1.7}
-.c-q__r ul{margin:8px 0 0;padding-left:18px}
-@container (max-width:860px){.c-faq__in{grid-template-columns:minmax(0,1fr)}}
-.c-foot{padding:clamp(48px,7cqi,80px) clamp(12px,2cqi,24px) 12px}
-.c-foot__boite{max-width:1240px;margin-inline:auto;padding:clamp(36px,5cqi,64px);border-radius:40px 40px 28px 28px;background:var(--brun);color:var(--fond)}
-.c-foot__haut{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:24px;padding-bottom:32px;border-bottom:1px solid rgba(251,244,238,.22)}
-.c-foot__logo{width:min(100%,260px);fill:var(--fond);color:var(--peche)}
-.c-foot__in{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;padding-top:30px}
-.c-foot h3{margin:0 0 10px;font:500 11px/1 var(--p-sans);letter-spacing:.2em;text-transform:uppercase;color:var(--peche)}
-.c-foot p,.c-foot dt,.c-foot dd{margin:0;font-size:14.5px;line-height:1.7}
-.c-foot a{color:var(--fond)}
-.c-foot__bas{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 20px;margin-top:32px;font-size:12.5px;color:var(--peche)}
-.c-foot__bas p{margin:0}
-@container (max-width:760px){.c-foot__in{grid-template-columns:minmax(0,1fr)}}
-
-
-/* ================= FUSION — disposition du départ + grande photo ================= */
-.f-hero .m-hero__txt{padding-bottom:clamp(104px,11cqi,150px)}
-.f-hero h1{font-size:clamp(58px,9.5cqi,144px)}
+/* ================= 1 · FUSION — disposition du départ + grande photo ================= */
+.f-hero{position:relative;display:grid;align-items:end;justify-items:center;min-height:min(var(--vh80),780px);overflow:hidden;text-align:center;color:var(--fond)}
+.f-hero__img{position:absolute;inset:0}
+.f-hero__img img{object-position:50% 30%;animation:a-zoom 1.4s cubic-bezier(.22,1,.36,1) both}
+.f-hero__img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(58,42,34,.18) 0%,rgba(58,42,34,.3) 40%,rgba(58,42,34,.86) 100%)}
+.f-hero__txt{position:relative;padding:0 20px clamp(104px,11cqi,150px);max-width:980px}
+.f-hero .eyebrow{color:var(--peche)}
+.f-hero h1{margin:0;font:italic 400 clamp(58px,9.5cqi,144px)/.88 var(--p-serif);letter-spacing:-.02em;color:var(--fond)}
+.f-hero p{margin:24px auto 0;max-width:34em;font-size:clamp(16px,1.6cqi,18px);line-height:1.7;color:var(--peche)}
+.f-hero .f-ctas{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px}
 .f-badge{position:absolute;top:clamp(20px,4cqi,52px);right:clamp(16px,5cqi,72px);width:clamp(96px,9cqi,132px);animation:tourne 32s linear infinite}
 .f-trust{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px;font:500 11.5px/1.4 var(--p-sans);letter-spacing:.18em;text-transform:uppercase;color:var(--peche)}
 .f-trust li{display:flex;align-items:center;gap:9px}
 .f-trust li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--caramel)}
 .f-consult-w{position:relative;z-index:3;display:flex;justify-content:flex-end;margin-top:-66px;margin-bottom:22px}
 .f-consult-w .f-consult{position:relative;right:auto;bottom:auto;max-width:300px}
-@container (max-width:900px){.f-consult-w{justify-content:center;margin-top:-58px;margin-bottom:26px}.f-consult-w .f-consult{max-width:340px}.f-badge{top:16px;right:14px;width:84px}.f-hero .m-hero__txt{padding-top:116px}}
+@container (max-width:900px){.f-consult-w{justify-content:center;margin-top:-58px;margin-bottom:26px}.f-consult-w .f-consult{max-width:340px}.f-badge{top:16px;right:14px;width:84px}.f-hero__txt{padding-top:116px}}
 
-/* ================= DÉPART — modèle d'origine ================= */
+/* ================= 2 · DÉPART — modèle d'origine ================= */
 .a-head{position:sticky;top:var(--haut);z-index:50;background:color-mix(in srgb,var(--fond) 90%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--ligne)}
 .a-head__in{display:flex;align-items:center;gap:28px;min-height:76px}
 .a-logo{display:flex;align-items:center;text-decoration:none}
@@ -521,8 +244,7 @@ p{text-wrap:pretty}
 /* Bouton flottant mobile (tous les modèles) */
 @container (max-width:720px){
   .site .flottant{display:flex;position:fixed;left:16px;right:16px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:60;box-shadow:0 14px 30px -12px rgba(30,18,10,.5)}
-  .a-foot,.m-foot,.t-foot{padding-bottom:112px}
-  .c-foot{padding-bottom:96px}
+  .a-foot{padding-bottom:112px}
 }
 
 
@@ -646,9 +368,6 @@ p{text-wrap:pretty}
 @keyframes tourne{to{transform:rotate(360deg)}}
 @keyframes a-entre{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 @keyframes a-zoom{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:none}}
-@keyframes t-respire{from{transform:scale(1)}to{transform:scale(1.06)}}
-@keyframes t-ouvre{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-@keyframes c-apparait{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @keyframes bk-fondu{from{opacity:0}}
 @keyframes bk-monte{from{transform:translateY(40px);opacity:0}}
 @keyframes bk-coche{from{stroke-dashoffset:30}to{stroke-dashoffset:0}}
@@ -664,13 +383,10 @@ p{text-wrap:pretty}
 <!-- ================= BARRE DE CHOIX ================= -->
 <div class="choix">
   <div class="choix__in">
-    <p class="choix__t">Choix de Karianne<span id="choix-desc"></span></p>
+    <p class="choix__t">2 options · à vous de choisir<span id="choix-desc"></span></p>
     <div class="choix__tabs" role="tablist" aria-label="Choisir un modèle">
-      <button type="button" role="tab" id="tab-fusion" data-go="fusion" aria-controls="scene" aria-selected="true">Fusion</button>
-      <button type="button" role="tab" id="tab-depart" data-go="depart" aria-controls="scene" aria-selected="false" tabindex="-1">Départ</button>
-      <button type="button" role="tab" id="tab-magazine" data-go="magazine" aria-controls="scene" aria-selected="false" tabindex="-1" class="choix__ref">Magazine</button>
-      <button type="button" role="tab" id="tab-atelier" data-go="atelier" aria-controls="scene" aria-selected="false" tabindex="-1" class="choix__ref">Atelier</button>
-      <button type="button" role="tab" id="tab-cocon" data-go="cocon" aria-controls="scene" aria-selected="false" tabindex="-1" class="choix__ref">Cocon</button>
+      <button type="button" role="tab" id="tab-fusion" data-go="fusion" aria-controls="scene" aria-selected="true"><span class="choix__num">1</span>Fusion</button>
+      <button type="button" role="tab" id="tab-depart" data-go="depart" aria-controls="scene" aria-selected="false" tabindex="-1"><span class="choix__num">2</span>Départ</button>
     </div>
   </div>
 </div>
@@ -678,7 +394,7 @@ p{text-wrap:pretty}
 <!-- ================= SCÈNE : ORDINATEUR + TÉLÉPHONE ================= -->
 <div class="scene" id="scene">
   <div class="scene__tete">
-    <div><h1><span id="scene-num" class="scene__num">Modèle 1</span><span id="scene-nom" class="scene__nom">Atelier</span></h1><p id="scene-desc"></p></div>
+    <div><h1><span id="scene-num" class="scene__num">Option 1</span><span id="scene-nom" class="scene__nom">Fusion</span></h1><p id="scene-desc"></p></div>
     <p class="scene__astuce">Les deux écrans sont interactifs : faites défiler, ouvrez les soins et essayez la réservation.</p>
   </div>
   <div class="scene__appareils">
@@ -699,278 +415,7 @@ p{text-wrap:pretty}
 </div>
 
 <div id="sources" hidden>
-<!-- ================= 1 · ATELIER ================= -->
-<main class="site" id="site-atelier">
-  <div class="t-grille">
-    <aside class="t-panneau" aria-label="Clinique La Parenthèse">
-      <div class="t-panneau__img"><img class="photo" src="images/soin-collagene.jpg" alt="Soin Collagène 90+ : masque appliqué sur le visage d'une cliente"></div>
-      <div class="t-panneau__haut"><svg class="logo-lp t-panneau__logo" viewBox="0 0 428.54 105.29" role="img" aria-label="Clinique La Parenthèse, dermo-esthétique"><use href="#logo-lp"/></svg></div>
-      <div class="t-panneau__bas">
-        <p class="eyebrow">Dermo-esthétique · Trois-Rivières</p>
-        <p class="t-slogan">Une parenthèse pour votre peau.</p>
-        <button type="button" class="btn btn--clair" data-book="">Prendre rendez-vous</button>
-        <p class="t-panneau__info"><span>Mardi et mercredi</span><span>9 h à 19 h</span></p>
-      </div>
-    </aside>
-
-    <div class="t-contenu">
-      <header class="t-head">
-        <a class="t-head__logo" href="#t-intro" aria-label="Clinique La Parenthèse, haut de page"><svg class="logo-lp" viewBox="0 0 428.54 105.29" aria-hidden="true" focusable="false"><use href="#logo-lp"/></svg></a>
-        <nav class="t-nav" aria-label="Sections"><a href="#t-soins">Soins</a><a href="#t-karianne">Karianne</a><a href="#t-savoir">Bon à savoir</a><a href="#t-contact">Contact</a></nav>
-        <button type="button" class="btn btn--plein btn--petit" data-book="">Réserver</button>
-      </header>
-
-      <section class="t-sec t-intro" id="t-intro">
-        <p class="eyebrow">La clinique</p>
-        <p class="t-grand">Une clinique intime où une <em>infirmière</em> prend soin de votre peau, un protocole G.M. Collin à la fois.</p>
-        <dl class="t-faits">
-          <div><dt>Infirmière</dt><dd>et esthéticienne</dd></div>
-          <div><dt>Analyse</dt><dd>de peau incluse dans chaque soin</dd></div>
-          <div><dt>G.M. Collin</dt><dd>produits professionnels</dd></div>
-        </dl>
-      </section>
-
-      <section class="t-sec" id="t-soins">
-        <div class="t-titre"><h2 class="t-h2">Les <em>soins</em></h2><p>Touchez un soin pour voir son déroulement complet.</p></div>
-        <div id="t-liste"></div>
-      </section>
-
-      <section class="t-sec t-k" id="t-karianne">
-        <div class="t-k__in">
-          <div class="t-k__rond"><div data-ph="portrait" data-label="Karianne"></div></div>
-          <div>
-            <p class="eyebrow">Votre infirmière</p>
-            <h2 class="t-h2">Karianne <em>Nadeau-Berthiaume</em></h2>
-            <p>Infirmière et esthéticienne spécialisée en soins du visage, j'ai ouvert La Parenthèse pour offrir des soins rigoureux dans un endroit où l'on prend le temps.</p>
-            <p>Avant chaque soin, j'analyse votre peau et je tiens compte de vos sensibilités, de votre médication et de vos objectifs.</p>
-            <p class="script" aria-hidden="true">Karianne</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="t-sec" id="t-savoir">
-        <h2 class="t-h2">Bon à <em>savoir</em></h2>
-        <div class="t-savoir__grille">
-          <article class="t-carte"><h3>Avant un peeling</h3><p class="t-carte__quand">Les 3 jours précédents</p><ul><li>Évitez l'électrolyse, le laser, l'épilation à la cire et les crèmes dépilatoires.</li><li>Cessez votre exfoliant et les produits à l'acide salicylique, au rétinol sur ordonnance ou au peroxyde de benzoyle.</li></ul></article>
-          <article class="t-carte"><h3>Après un peeling</h3><p class="t-carte__quand">Les jours suivants</p><ul><li>Ne lavez pas votre visage pendant 6 à 8 heures.</li><li>Protégez votre peau avec un FPS 30 ou plus pendant au moins une semaine.</li><li>Pas de maquillage ni de forte chaleur pendant 24 heures.</li><li>Ne frottez pas, ne pincez pas et ne tirez pas la peau.</li></ul></article>
-          <article class="t-carte t-carte--large"><h3>Annulation</h3><p>Vous pouvez annuler ou déplacer votre rendez-vous sans frais jusqu'à 48 h à l'avance. Moins de 48 h avant, ou en cas d'absence, des frais de 50 $ s'appliquent. Un retard de plus de 15 minutes pourrait entraîner l'annulation du rendez-vous.</p></article>
-        </div>
-      </section>
-
-      <section class="t-sec t-contact" id="t-contact">
-        <h2 class="t-h2">Nous <em>trouver</em></h2>
-        <dl class="t-infos">
-          <div><dt>Adresse</dt><dd><span data-info="adresse"></span><br><a data-info="carte" target="_blank" rel="noopener">Itinéraire</a></dd></div>
-          <div><dt>Heures</dt><dd><dl class="heures" data-info="heures"></dl></dd></div>
-          <div><dt>Contact</dt><dd data-info="contact"></dd></div>
-        </dl>
-        <button type="button" class="btn btn--plein" data-book="">Prendre rendez-vous</button>
-      </section>
-      <footer class="t-foot"><p>© 2026 Clinique La Parenthèse</p><p>Démo : portrait et réservations provisoires.</p></footer>
-    </div>
-  </div>
-  <button type="button" class="flottant btn btn--plein" data-book="">Prendre rendez-vous</button>
-</main>
-
-<!-- ================= 2 · MAGAZINE ================= -->
-<main class="site" id="site-magazine">
-  <header class="m-head">
-    <div class="w m-head__in">
-      <nav class="m-nav m-nav--g" aria-label="Sections"><a href="#m-soins">Les soins</a><a href="#m-karianne">Karianne</a></nav>
-      <a class="m-logo" href="#m-top" aria-label="Clinique La Parenthèse, haut de page"><svg class="logo-lp" viewBox="0 0 428.54 105.29" aria-hidden="true" focusable="false"><use href="#logo-lp"/></svg></a>
-      <nav class="m-nav m-nav--d" aria-label="Autres sections"><a href="#m-produits">Produits</a><a href="#m-contact">Contact</a><a class="btn btn--plein btn--petit" href="#m-top" data-book="">Réserver</a></nav>
-    </div>
-  </header>
-
-  <section class="m-hero" id="m-top">
-    <div class="m-hero__img"><img class="photo" src="images/soin-masque.jpg" alt="Cliente détendue pendant un soin du visage G.M. Collin"></div>
-    <div class="m-hero__txt">
-      <p class="eyebrow">Clinique dermo-esthétique · Trois-Rivières</p>
-      <h1>Prenez une parenthèse.</h1>
-      <p>Des soins du visage G.M. Collin réalisés par une infirmière, dans un espace pensé pour ralentir.</p>
-      <div class="m-ctas"><button type="button" class="btn btn--clair" data-book="">Prendre rendez-vous</button><a class="btn btn--fantome" href="#m-soins">Découvrir les soins</a></div>
-    </div>
-  </section>
-
-  <section class="m-manif">
-    <div class="w">
-      <p class="m-lettrine">Chaque peau a son histoire. Avant de proposer quoi que ce soit, Karianne prend le temps de comprendre la vôtre : votre routine, vos sensibilités, vos objectifs. Son regard d'infirmière va au-delà de l'esthétique, pour des soins aussi rigoureux que réconfortants.</p>
-      <p class="m-sign">Karianne Nadeau-Berthiaume · Infirmière</p>
-    </div>
-  </section>
-
-  <section id="m-soins">
-    <div class="w">
-      <div class="m-sec-tete"><h2 class="m-h2">Les soins <em>signatures</em></h2><p>Trois protocoles G.M. Collin pour trois besoins de peau. L'analyse de votre peau est incluse dans chaque soin du visage.</p></div>
-      <div id="m-signatures"></div>
-      <div class="m-aussi"><h3>Aussi à la carte</h3><div class="m-carte" id="m-carte"></div></div>
-    </div>
-  </section>
-
-  <section class="m-chiffres" aria-label="La clinique en chiffres">
-    <div class="w m-chiffres__grille">
-      <div class="m-chiffre"><b>20 min</b><span>de consultation, gratuite si vous réservez un soin ensuite</span></div>
-      <div class="m-chiffre"><b>1 h 30</b><span>le temps d'un vrai soin, massage inclus</span></div>
-      <div class="m-chiffre"><b>48 h</b><span>pour annuler ou déplacer sans frais</span></div>
-      <div class="m-chiffre"><b>9 h à 19 h</b><span>le mardi et le mercredi, sur rendez-vous</span></div>
-    </div>
-  </section>
-
-  <section class="m-k" id="m-karianne">
-    <div class="w m-k__in">
-      <div class="m-k__portrait"><div data-ph="portrait" data-label="Portrait de Karianne"></div></div>
-      <div>
-        <p class="eyebrow">La fondatrice</p>
-        <blockquote class="m-k__cit"><span>« </span>Je voulais un endroit où l'on prend vraiment le temps de comprendre la peau, avec la rigueur d'une infirmière.<span> »</span></blockquote>
-        <p class="m-k__bio">Infirmière et esthéticienne spécialisée en soins du visage, Karianne a fondé La Parenthèse à Trois-Rivières. Chaque soin commence par une analyse de votre peau et tient compte de vos sensibilités et de votre médication.</p>
-        <p class="m-k__sign">Karianne Nadeau-Berthiaume</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="m-prod" id="m-produits">
-    <div class="w">
-      <div class="m-sec-tete"><h2 class="m-h2">La routine <em>maison</em></h2><p>Les produits G.M. Collin utilisés en cabine sont offerts à la clinique. Karianne vous aide à choisir ceux qui prolongent votre soin.</p></div>
-      <div class="m-prod__grille">
-        <div class="m-prod__item"><div data-btl="pompe" data-nom="Nettoyant"></div><h3>Nettoyer</h3><p>Matin et soir</p></div>
-        <div class="m-prod__item"><div data-btl="tube" data-nom="Exfoliant"></div><h3>Exfolier</h3><p>Une à deux fois par semaine</p></div>
-        <div class="m-prod__item"><div data-btl="pompe" data-nom="Sérum"></div><h3>Traiter</h3><p>Selon vos besoins</p></div>
-        <div class="m-prod__item"><div data-btl="pot" data-nom="Crème"></div><h3>Protéger</h3><p>Chaque jour</p></div>
-      </div>
-      <p class="m-mini">Illustrations provisoires : les photos de vos produits les remplaceront.</p>
-    </div>
-  </section>
-
-  <div class="w m-insta__tete"><h2 class="m-h2">Instagram</h2><a class="lien" href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener">@cliniquelaparenthese</a></div>
-  <div class="m-insta">
-    <a href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener" aria-label="Voir sur Instagram"><img class="photo" src="images/soin-peeling.jpg" alt=""></a>
-    <a href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener" aria-label="Voir sur Instagram"><div data-ph="etoile"></div></a>
-    <a href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener" aria-label="Voir sur Instagram"><img class="photo" src="images/soin-collagene.jpg" alt=""></a>
-    <a href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener" aria-label="Voir sur Instagram"><div data-ph="portrait"></div></a>
-    <a href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener" aria-label="Voir sur Instagram"><img class="photo" src="images/soin-masque.jpg" alt=""></a>
-    <a href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener" aria-label="Voir sur Instagram"><div data-ph="etoile"></div></a>
-  </div>
-
-  <footer class="m-foot" id="m-contact">
-    <div class="w">
-      <svg class="logo-lp m-foot__logo" viewBox="0 0 428.54 105.29" aria-hidden="true" focusable="false"><use href="#logo-lp"/></svg>
-      <div class="m-foot__in">
-        <div><h3>Adresse</h3><p data-info="adresse"></p><p><a data-info="carte" target="_blank" rel="noopener">Itinéraire</a></p></div>
-        <div><h3>Heures</h3><dl class="heures" data-info="heures"></dl></div>
-        <div><h3>Contact</h3><p data-info="contact"></p></div>
-        <div><h3>Réserver</h3><p>En ligne, en quelques clics.</p><button type="button" class="btn btn--clair btn--petit" data-book="">Prendre rendez-vous</button></div>
-      </div>
-      <div class="m-foot__bas"><p>© 2026 Clinique La Parenthèse</p><p>Démo : portrait, photos produits et réservations provisoires.</p></div>
-    </div>
-  </footer>
-  <button type="button" class="flottant btn btn--plein" data-book="">Prendre rendez-vous</button>
-</main>
-
-<!-- ================= 3 · COCON ================= -->
-<main class="site" id="site-cocon">
-  <header class="c-head">
-    <div class="c-head__in">
-      <a class="c-logo" href="#c-top" aria-label="Clinique La Parenthèse, haut de page"><svg class="logo-lp" viewBox="0 0 428.54 105.29" aria-hidden="true" focusable="false"><use href="#logo-lp"/></svg></a>
-      <nav class="c-nav" aria-label="Sections"><a href="#c-soins">Soins</a><a href="#c-deroulement">Déroulement</a><a href="#c-karianne">Karianne</a><a href="#c-faq">Questions</a></nav>
-      <button type="button" class="btn btn--plein" data-book="">Réserver</button>
-    </div>
-  </header>
-
-  <section class="c-hero" id="c-top">
-    <div class="w">
-      <div class="c-hero__boite">
-        <div class="c-hero__txt">
-          <p class="eyebrow">Dermo-esthétique · Trois-Rivières</p>
-          <h1>Votre peau entre <em>de bonnes mains</em></h1>
-          <p>Soins du visage G.M. Collin et analyse de peau par Karianne, infirmière. Réservez en ligne en moins d'une minute.</p>
-          <ul class="c-puces"><li>Infirmière</li><li>Analyse de peau incluse</li><li>Produits G.M. Collin</li></ul>
-        </div>
-        <div class="c-hero__img">
-          <img class="photo" src="images/soin-peeling.jpg" alt="Application d'un peeling au pinceau pendant un soin">
-          <div class="c-hero__bulle"><span><span data-ph="portrait"></span></span><span><b>Karianne</b>Infirmière</span></div>
-        </div>
-      </div>
-      <form class="c-widget" id="c-widget" aria-label="Réservation rapide">
-        <div><label for="c-select">Votre soin</label><div class="c-select-w"><select class="c-select" id="c-select"></select></div></div>
-        <p class="c-dispo" id="c-dispo" aria-live="polite"></p>
-        <button type="submit" class="btn btn--plein">Voir les disponibilités</button>
-      </form>
-    </div>
-  </section>
-
-  <section class="c-sec" id="c-deroulement">
-    <div class="w">
-      <div class="c-tete"><h2 class="c-h2">Comment ça <em>se passe</em></h2><p>Trois étapes simples, de la réservation jusqu'à votre routine à la maison.</p></div>
-      <ol class="c-etapes__grille">
-        <li class="c-etape"><span class="c-etape__num">1</span><h3>Vous réservez</h3><p>Choisissez votre soin et votre moment en ligne. Vous recevez une confirmation et un rappel.</p></li>
-        <li class="c-etape"><span class="c-etape__num">2</span><h3>On analyse votre peau</h3><p>Karianne évalue votre peau et vos besoins avant de commencer. L'analyse est incluse dans chaque soin du visage.</p></li>
-        <li class="c-etape"><span class="c-etape__num">3</span><h3>Vous repartez chouchoutée</h3><p>Un soin G.M. Collin complet, puis des conseils simples pour prolonger les résultats à la maison.</p></li>
-      </ol>
-    </div>
-  </section>
-
-  <section class="c-sec c-sec--serre" id="c-soins">
-    <div class="w">
-      <div class="c-tete"><h2 class="c-h2">Les <em>soins</em></h2><p>Filtrez selon ce que vous aimeriez améliorer.</p></div>
-      <div class="c-filtres" id="c-filtres" role="group" aria-label="Filtrer les soins"></div>
-      <div class="c-cartes" id="c-cartes" aria-live="polite"></div>
-    </div>
-  </section>
-
-  <section class="c-sec c-sec--serre" id="c-karianne">
-    <div class="w">
-      <div class="c-k__boite">
-        <div class="c-k__rond"><div data-ph="portrait" data-label="Karianne"></div></div>
-        <div>
-          <p class="eyebrow">Votre infirmière</p>
-          <h2 class="c-h2">Allô, moi c'est <em>Karianne</em></h2>
-          <p>Infirmière et esthéticienne spécialisée en soins du visage, j'ai ouvert La Parenthèse pour que chaque cliente se sente écoutée et en confiance. Avant chaque soin, on jase de votre peau, de votre routine et de vos objectifs.</p>
-          <ul class="c-puces"><li>Infirmière</li><li>Soins du visage</li><li>Partenaire G.M. Collin</li></ul>
-          <p class="script" aria-hidden="true">la beauté en douceur</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="c-sec c-sec--serre" id="c-faq">
-    <div class="w c-faq__in">
-      <div>
-        <h2 class="c-h2">Vos <em>questions</em></h2>
-        <div class="c-contact">
-          <h3>Nous joindre</h3>
-          <p data-info="adresse"></p>
-          <p data-info="contact"></p>
-          <dl class="heures" data-info="heures"></dl>
-          <button type="button" class="btn btn--clair" data-book="">Prendre rendez-vous</button>
-        </div>
-      </div>
-      <div>
-        <details class="c-q" open><summary>Je ne sais pas quel soin choisir</summary><div class="c-q__r">Réservez la consultation et analyse de peau (25 $, 20 minutes). Karianne vous propose un plan de soins adapté, et la consultation est gratuite si vous réservez un soin par la suite.</div></details>
-        <details class="c-q"><summary>Comment annuler ou déplacer un rendez-vous?</summary><div class="c-q__r">Sans frais jusqu'à 48 h avant le rendez-vous. Moins de 48 h avant, ou en cas d'absence, des frais de 50 $ s'appliquent. Un retard de plus de 15 minutes pourrait entraîner l'annulation du rendez-vous.</div></details>
-        <details class="c-q"><summary>Pourquoi une carte de crédit à la réservation?</summary><div class="c-q__r">Elle sert à garantir votre rendez-vous. Aucun montant n'est prélevé au moment de réserver, sauf en cas d'annulation tardive ou d'absence.</div></details>
-        <details class="c-q"><summary>Comment me préparer à un peeling?</summary><div class="c-q__r">Les 3 jours précédents :<ul><li>évitez l'électrolyse, le laser, l'épilation à la cire et les crèmes dépilatoires;</li><li>cessez votre exfoliant et les produits à l'acide salicylique, au rétinol sur ordonnance ou au peroxyde de benzoyle.</li></ul></div></details>
-        <details class="c-q"><summary>Que faire après un peeling?</summary><div class="c-q__r"><ul><li>Ne lavez pas votre visage pendant 6 à 8 heures.</li><li>Appliquez un FPS 30 ou plus et évitez le soleil pendant au moins une semaine.</li><li>Pas de maquillage ni de forte chaleur pendant 24 heures.</li></ul>Une cure de 3 à 6 traitements aux 4 semaines donne les meilleurs résultats.</div></details>
-        <details class="c-q"><summary>Quels produits utilisez-vous?</summary><div class="c-q__r">Tous les soins sont réalisés avec les produits professionnels G.M. Collin, aussi offerts à la clinique pour votre routine à la maison.</div></details>
-      </div>
-    </div>
-  </section>
-
-  <footer class="c-foot">
-    <div class="c-foot__boite">
-      <div class="c-foot__haut"><svg class="logo-lp c-foot__logo" viewBox="0 0 428.54 105.29" aria-hidden="true" focusable="false"><use href="#logo-lp"/></svg><button type="button" class="btn btn--clair" data-book="">Prendre rendez-vous</button></div>
-      <div class="c-foot__in">
-        <div><h3>Adresse</h3><p data-info="adresse"></p><p><a data-info="carte" target="_blank" rel="noopener">Itinéraire</a></p></div>
-        <div><h3>Heures</h3><dl class="heures" data-info="heures"></dl></div>
-        <div><h3>Suivez-nous</h3><p><a href="https://www.instagram.com/cliniquelaparenthese/" target="_blank" rel="noopener">@cliniquelaparenthese</a></p></div>
-      </div>
-      <div class="c-foot__bas"><p>© 2026 Clinique La Parenthèse</p><p>Démo : portrait et réservations provisoires.</p></div>
-    </div>
-  </footer>
-  <button type="button" class="flottant btn btn--plein" data-book="">Prendre rendez-vous</button>
-</main>
-
-<!-- ================= DÉPART — modèle d'origine ================= -->
-<!-- ================= FUSION : disposition du départ + photo du Magazine ================= -->
+<!-- ================= 1 · FUSION : disposition du départ + grande photo ================= -->
 <main class="site" id="site-fusion">
   <header class="a-head">
     <div class="w a-head__in">
@@ -983,14 +428,14 @@ p{text-wrap:pretty}
       <button type="button" class="a-btn a-btn--plein a-head__cta" data-book=""><span class="long">Prendre rendez-vous</span><span class="court">Réserver</span></button>
     </div>
   </header>
-  <section class="m-hero f-hero" id="f-top">
-    <div class="m-hero__img"><img class="photo" src="images/soin-masque.jpg" alt="Cliente détendue pendant un soin du visage G.M. Collin"></div>
+  <section class="f-hero" id="f-top">
+    <div class="f-hero__img"><img class="photo" src="images/soin-masque.jpg" alt="Cliente détendue pendant un soin du visage G.M. Collin"></div>
     <div class="f-badge" data-badge="INFIRMIÈRE · SOINS DU VISAGE · G.M. COLLIN · " aria-hidden="true"></div>
-    <div class="m-hero__txt">
+    <div class="f-hero__txt">
       <p class="eyebrow">Dermo-esthétique · Trois-Rivières</p>
       <h1>Prenez une parenthèse.</h1>
       <p>Des soins du visage G.M. Collin réalisés par Karianne, infirmière. On prend le temps de comprendre votre peau, puis on en prend soin.</p>
-      <div class="m-ctas"><button type="button" class="btn btn--clair" data-book="">Réserver un soin</button><a class="btn btn--fantome" href="#f-soins">Voir la carte des soins</a></div>
+      <div class="f-ctas"><button type="button" class="btn btn--clair" data-book="">Réserver un soin</button><a class="btn btn--fantome" href="#f-soins">Voir la carte des soins</a></div>
       <ul class="f-trust"><li>Infirmière</li><li>Produits G.M. Collin</li><li>Analyse de peau incluse</li></ul>
     </div>
   </section>
@@ -1075,7 +520,7 @@ p{text-wrap:pretty}
   <button type="button" class="flottant a-btn a-btn--plein" data-book="">Prendre rendez-vous</button>
 </main>
 
-<!-- ================= DÉPART — modèle d'origine ================= -->
+<!-- ================= 2 · DÉPART — modèle d'origine, tel quel ================= -->
 <main class="site" id="site-depart">
   <header class="a-head">
     <div class="w a-head__in">
@@ -1227,30 +672,20 @@ p{text-wrap:pretty}
   const PEELING = 30;
 
   const SOINS = [
-    { id: "consult", nom: "Consultation et analyse de peau", sous: "Le point de départ idéal", txt: "Parce qu'une belle peau commence par une bonne évaluation. On cible vos préoccupations et on bâtit un plan de soins personnalisé.", prix: 25, min: 20, duree: "20 min", cat: "Consultation", pour: ["Nouvelle cliente", "Vous hésitez"], bonus: "Gratuite si vous réservez un soin ensuite", peel: false, img: null, btl: "pot",
-      etapes: ["Analyse des besoins de votre peau", "Discussion de vos préoccupations", "Plan de soins personnalisé", "Recommandations professionnelles pour la maison"], filtres: [] },
-    { id: "oxy", nom: "Soin Oxygénant", sous: "Peau grasse et à tendance acnéique", txt: "Purifie et hydrate la peau pour lui redonner son éclat et un teint radieux.", prix: 135, min: 90, duree: "1 h 30", cat: "Soin visage", pour: ["Peau grasse", "Acné", "Teint terne"], peel: false, img: "soin-masque.jpg", btl: "pompe",
-      etapes: ["Nettoyage de la peau", "Exfoliation", "Extraction des points noirs au besoin", "Application du sérum", "Masque et court massage pendant le temps de pause", "Crème de fin de soin et court massage du visage", "Contour des yeux et hydratant pour les lèvres"], filtres: ["acne", "hydratation"] },
-    { id: "algo", nom: "Soin Algomask", sous: "Peau sensible ou déshydratée", txt: "Calme et hydrate les peaux sensibles, diminue l'apparence des rougeurs et donne un coup d'éclat.", prix: 130, min: 90, duree: "1 h 30", cat: "Soin visage", pour: ["Rougeurs", "Peau sensible", "Déshydratation"], peel: true, img: "soin-masque.jpg", btl: "tube",
-      etapes: ["Double nettoyage de la peau", "Exfoliation ou peeling (+30 $)", "Extraction des points noirs au besoin", "Application de la lotion", "Masque", "Massage du décolleté et des épaules, puis temps de pause", "Application du sérum", "Crème de fin de soin et court massage du visage", "Soin des yeux et des lèvres"], filtres: ["rougeurs", "hydratation"] },
-    { id: "hydro", nom: "Soin Hydrolifting", sous: "Visage et cou", txt: "Hydratation intense pour un coup d'éclat immédiat. Améliore visiblement l'élasticité de la peau et l'apparence des ridules.", prix: 135, min: 75, duree: "1 h 15", cat: "Soin visage", pour: ["Fermeté", "Hydratation", "Ridules"], peel: true, img: "soin-collagene.jpg", btl: "pompe",
-      etapes: ["Double nettoyage de la peau", "Exfoliation ou peeling (+30 $)", "Extraction des points noirs au besoin", "Sérum hydratant", "Masque raffermissant", "Massage du décolleté et des épaules, puis temps de pause", "Crème de fin de soin et court massage du visage", "Concentré liftant", "Soin des yeux et des lèvres"], filtres: ["antiage", "hydratation"] },
-    { id: "colla", nom: "Soin Collagène 90+", sous: "Anti-âge et réparation", txt: "Le soin régénérant réputé de G.M. Collin : rides et ridules visiblement atténuées, peau repulpée et radieuse.", prix: 150, min: 90, duree: "1 h 30", cat: "Soin visage", pour: ["Rides", "Anti-âge", "Éclat"], peel: true, img: "soin-collagene.jpg", btl: "pot",
-      etapes: ["Nettoyage en profondeur", "Exfoliation ou peeling (+30 $)", "Extraction des points noirs au besoin", "Sérum intensif", "Masque en feuille au collagène", "Massage de 15 minutes des bras, des épaules et du décolleté, puis 15 minutes de pause", "Crème de fin de soin", "Soin des yeux et des lèvres"], filtres: ["antiage"] },
-    { id: "peel", nom: "Peeling", sous: "Soin peeling seul", txt: "Exfolie les couches supérieures de la peau, affine la texture et atténue l'apparence des taches et des marques d'acné.", prix: 80, min: 30, duree: "30 min", cat: "Peeling", pour: ["Texture", "Taches", "Marques d'acné"], peel: false, img: "soin-peeling.jpg", btl: "tube",
-      etapes: ["Préparation de la peau", "Application du peeling choisi pour votre peau", "Neutralisation et apaisement", "Protection solaire"], note: "Une cure de 3 à 6 traitements aux 4 semaines est recommandée.", filtres: ["acne", "antiage", "texture"] },
-    { id: "dos", nom: "Soin du dos", sous: "Purifiant et hydratant", txt: "Purifie, exfolie et hydrate la peau du dos en profondeur, avec un vrai moment de détente.", prix: 120, min: 75, duree: "1 h 15", cat: "Soin du dos", pour: ["Imperfections", "Peau sèche", "Détente"], peel: true, img: null, btl: "pot",
-      etapes: ["Nettoyage en profondeur", "Exfoliant", "Extraction des comédons", "Massage du dos (5 minutes)", "Lotion", "Masque", "Crème de fin de soin"], filtres: ["dos"] },
+    { id: "consult", nom: "Consultation et analyse de peau", sous: "Le point de départ idéal", txt: "Parce qu'une belle peau commence par une bonne évaluation. On cible vos préoccupations et on bâtit un plan de soins personnalisé.", prix: 25, min: 20, duree: "20 min", pour: ["Nouvelle cliente", "Vous hésitez"], bonus: "Gratuite si vous réservez un soin ensuite", peel: false },
+    { id: "oxy", nom: "Soin Oxygénant", sous: "Peau grasse et à tendance acnéique", txt: "Purifie et hydrate la peau pour lui redonner son éclat et un teint radieux.", prix: 135, min: 90, duree: "1 h 30", pour: ["Peau grasse", "Acné", "Teint terne"], peel: false },
+    { id: "algo", nom: "Soin Algomask", sous: "Peau sensible ou déshydratée", txt: "Calme et hydrate les peaux sensibles, diminue l'apparence des rougeurs et donne un coup d'éclat.", prix: 130, min: 90, duree: "1 h 30", pour: ["Rougeurs", "Peau sensible", "Déshydratation"], peel: true },
+    { id: "hydro", nom: "Soin Hydrolifting", sous: "Visage et cou", txt: "Hydratation intense pour un coup d'éclat immédiat. Améliore visiblement l'élasticité de la peau et l'apparence des ridules.", prix: 135, min: 75, duree: "1 h 15", pour: ["Fermeté", "Hydratation", "Ridules"], peel: true },
+    { id: "colla", nom: "Soin Collagène 90+", sous: "Anti-âge et réparation", txt: "Le soin régénérant réputé de G.M. Collin : rides et ridules visiblement atténuées, peau repulpée et radieuse.", prix: 150, min: 90, duree: "1 h 30", pour: ["Rides", "Anti-âge", "Éclat"], peel: true },
+    { id: "peel", nom: "Peeling", sous: "Soin peeling seul", txt: "Exfolie les couches supérieures de la peau, affine la texture et atténue l'apparence des taches et des marques d'acné.", prix: 80, min: 30, duree: "30 min", pour: ["Texture", "Taches", "Marques d'acné"], peel: false },
+    { id: "dos", nom: "Soin du dos", sous: "Purifiant et hydratant", txt: "Purifie, exfolie et hydrate la peau du dos en profondeur, avec un vrai moment de détente.", prix: 120, min: 75, duree: "1 h 15", pour: ["Imperfections", "Peau sèche", "Détente"], peel: true },
   ];
   const parId = Object.fromEntries(SOINS.map((s) => [s.id, s]));
 
-  const MODELES = ["fusion", "depart", "magazine", "atelier", "cocon"];
+  const MODELES = ["fusion", "depart"];
   const DESC = {
-    fusion: "Fusion : la disposition du modèle de départ avec la grande photo du Magazine",
+    fusion: "Fusion : la disposition du modèle de départ avec une grande photo en haut de page",
     depart: "Départ : le modèle de départ, tel quel",
-    magazine: "Magazine : grandes photos pleine largeur, mise en page de revue beauté",
-    atelier: "Atelier : écran partagé, photo fixe et soins détaillés étape par étape",
-    cocon: "Cocon : cartes douces, réservation rapide, filtres et questions fréquentes",
   };
   let actif = "fusion";
 
@@ -1261,76 +696,8 @@ p{text-wrap:pretty}
   };
   const flacon = (type, nom) => `<div class="btl btl--${type}" aria-hidden="true"><i class="btl__cap"></i><i class="btl__col"></i><i class="btl__corps"><b>G.M.<br>COLLIN</b>${nom ? `<em>${esc(nom)}</em>` : ""}</i></div>`;
 
-  /* ---------- 1 · Atelier : soins en accordéon ---------- */
+  /* ---------- Carte des soins façon menu (Fusion et Départ) ---------- */
   const ORDRE = ["consult", "oxy", "algo", "hydro", "colla", "peel", "dos"];
-  $("#t-liste").innerHTML = ORDRE.map((id, k) => {
-    const s = parId[id];
-    return `<details class="t-soin" ${k === 1 ? "open" : ""}>
-      <summary><span><h3>${esc(s.nom)}</h3><span class="t-soin__sous">${esc(s.sous)}</span></span><span class="t-soin__prix">${s.prix}&nbsp;$</span><span class="t-soin__plus" aria-hidden="true"></span></summary>
-      <div class="t-soin__corps">
-        <div>
-          <p>${esc(s.txt)}${s.note ? " " + esc(s.note) : ""}</p>
-          <div class="t-soin__meta"><span class="t-chip">${esc(s.duree)}</span>${s.bonus ? `<span class="t-chip">${esc(s.bonus)}</span>` : ""}${s.id !== "consult" && s.id !== "peel" && s.id !== "dos" ? '<span class="t-chip">Analyse de peau incluse</span>' : ""}${s.peel ? '<span class="t-chip">Option peeling +30 $</span>' : ""}</div>
-          <button type="button" class="btn btn--plein btn--petit" data-book="${s.id}">Réserver ce soin</button>
-        </div>
-        <div><p class="t-etapes__t">Déroulement</p><ol class="t-etapes">${s.etapes.map((e) => `<li>${esc(e)}</li>`).join("")}</ol></div>
-      </div>
-    </details>`;
-  }).join("");
-
-  /* ---------- 2 · Magazine : soins signatures + carte ---------- */
-  $("#m-signatures").innerHTML = ["oxy", "colla", "peel"].map((id, k) => {
-    const s = parId[id];
-    return `<article class="m-sig">
-      <div class="m-sig__img"><img class="photo" src="images/${s.img}" alt="Illustration du ${esc(s.nom)}"></div>
-      <div>
-        <span class="m-sig__num" aria-hidden="true">0${k + 1}</span>
-        <h3>${esc(s.nom)}</h3>
-        <p class="m-sig__sous">${esc(s.sous)}</p>
-        <p class="m-sig__txt">${esc(s.txt)}${s.note ? " " + esc(s.note) : ""}</p>
-        <dl class="m-sig__info"><div><dt>Durée</dt><dd>${esc(s.duree)}</dd></div><div><dt>Prix</dt><dd>${s.prix} $</dd></div>${s.peel ? "<div><dt>Option</dt><dd>Peeling +30 $</dd></div>" : ""}</dl>
-        <button type="button" class="btn btn--plein" data-book="${s.id}">Réserver ce soin</button>
-      </div>
-    </article>`;
-  }).join("");
-  $("#m-carte").innerHTML = ["consult", "algo", "hydro", "dos"].map((id) => {
-    const s = parId[id];
-    return `<div class="m-ligne"><h4>${esc(s.nom)}</h4><span class="m-ligne__prix">${s.prix}&nbsp;$</span><p>${esc(s.txt)}</p><div class="m-ligne__bas"><span>${esc(s.bonus || s.sous)} · ${esc(s.duree)}</span><button type="button" class="lien" data-book="${s.id}">Réserver<span class="sr"> : ${esc(s.nom)}</span></button></div></div>`;
-  }).join("");
-
-  /* ---------- 3 · Cocon : filtres, cartes, widget ---------- */
-  const FILTRES = [["tous", "Tous les soins"], ["acne", "Acné et imperfections"], ["rougeurs", "Rougeurs"], ["antiage", "Anti-âge"], ["hydratation", "Hydratation"], ["texture", "Texture et taches"], ["dos", "Dos"]];
-  function rendreCartes(cible, filtre) {
-    const liste = ORDRE.map((id) => parId[id]).filter((s) => filtre === "tous" || s.id === "consult" || s.filtres.includes(filtre));
-    cible.innerHTML = liste.map((s, k) => {
-      const avecPhoto = ["oxy", "colla", "peel"].includes(s.id);
-      const visuel = avecPhoto
-        ? `<img class="photo" src="images/${s.img}" alt="">`
-        : flacon(s.btl, "");
-      return `<article class="c-carte">
-        <div class="c-carte__visuel ${!avecPhoto && k % 2 ? "c-carte__visuel--sable" : ""}">${visuel}<span class="c-carte__prix">${s.prix}&nbsp;$</span>${s.id === "consult" ? '<span class="c-carte__badge">Pour commencer</span>' : ""}</div>
-        <div class="c-carte__corps">
-          <h3>${esc(s.nom)}</h3>
-          <p class="c-carte__sous">${esc(s.sous)}</p>
-          <p class="c-carte__txt">${esc(s.txt)}</p>
-          <ul class="c-tags">${s.pour.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
-          <div class="c-carte__bas"><span class="c-duree">${esc(s.duree)}</span><button type="button" class="btn btn--plein btn--petit" data-book="${s.id}">Réserver<span class="sr"> : ${esc(s.nom)}</span></button></div>
-        </div>
-      </article>`;
-    }).join("");
-  }
-  $("#c-filtres").innerHTML = FILTRES.map(([id, lib]) => `<button type="button" class="c-filtre" data-filtre="${id}" aria-pressed="${id === "tous"}">${lib}</button>`).join("");
-  /* Délégation : chaque copie du modèle (ordinateur, téléphone) filtre ses propres cartes */
-  document.addEventListener("click", (e) => {
-    const b = e.target.closest("[data-filtre]");
-    if (!b) return;
-    const groupe = b.parentElement;
-    $$("[data-filtre]", groupe).forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-    rendreCartes(groupe.parentElement.querySelector(".c-cartes"), b.dataset.filtre);
-  });
-  rendreCartes($("#c-cartes"), "tous");
-
-  /* ---------- Départ : carte des soins façon menu ---------- */
   const GROUPES = [["Pour commencer", ["consult"]], ["Soins du visage", ["oxy", "algo", "hydro", "colla"]], ["Peeling", ["peel"]], ["Soin du corps", ["dos"]]];
   const menuSoins = GROUPES.map(([titre, ids]) => `
     <div class="a-groupe"><h3 class="a-groupe__t">${titre}</h3>${ids.map((id) => {
@@ -1540,22 +907,6 @@ p{text-wrap:pretty}
     document.documentElement.classList.remove("verrou");
   }
 
-  /* Widget Cocon : prochaine disponibilité en direct (par copie du modèle) */
-  $("#c-select").innerHTML = ORDRE.map((id) => `<option value="${id}">${esc(parId[id].nom)} · ${parId[id].prix} $</option>`).join("");
-  function majDispo(liste) {
-    const d = premierJour(liste.value);
-    const m = d ? creneaux(d, parId[liste.value].min)[0] : null;
-    liste.closest(".c-widget").querySelector(".c-dispo").innerHTML = d ? `Prochaine disponibilité<b>${esc(dateLongue(d))}, ${heure(m)}</b>` : "Aucune disponibilité en ligne pour l'instant.";
-  }
-  majDispo($("#c-select"));
-  document.addEventListener("change", (e) => { if (e.target.matches(".c-select")) majDispo(e.target); });
-  document.addEventListener("submit", (e) => {
-    const f = e.target.closest(".c-widget");
-    if (!f) return;
-    e.preventDefault();
-    ouvrir(f.querySelector(".c-select").value, e.submitter || f);
-  });
-
   document.addEventListener("click", (e) => {
     const b = e.target.closest("[data-book]");
     if (!b || bk.contains(b)) return;
@@ -1638,7 +989,7 @@ p{text-wrap:pretty}
   });
 
   /* ---------- Copies du modèle dans les deux écrans ---------- */
-  const NOMS = { fusion: ["Selon les commentaires de Karianne", "Fusion"], depart: ["Son choix tel quel", "Modèle de départ"], magazine: ["Autre modèle", "Magazine"], atelier: ["Autre modèle", "Atelier"], cocon: ["Autre modèle", "Cocon"] };
+  const NOMS = { fusion: ["Option 1", "Fusion"], depart: ["Option 2", "Départ"] };
   const defBureau = $("#defile-bureau");
   const defTel = $("#defile-tel");
   function cloner(nom, prefixe) {
