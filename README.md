@@ -107,6 +107,8 @@ Principes :
 
 ## Déploiement Vercel
 
+**En ligne depuis le 13 octobre 2026 :** https://clinique-la-parenthese.vercel.app (projet Vercel `clinique-la-parenthese`, branche de production `claude/new-session-19zz3o`, `DATA_PROVIDER=mock` : la réservation y est simulée, à ne pas diffuser aux clientes avant le branchement de Square). Domaine `cliniquelaparenthese.ca` ajouté dans Vercel; il reste les DNS GoDaddy (A `@` → `216.150.1.1`, CNAME `www` → valeur affichée par Vercel).
+
 1. [vercel.com](https://vercel.com) → **Add New… → Project** → importer le dépôt GitHub `hleblanc-oss/Clinique-La-Parenth-se-` (autoriser l'accès Vercel ↔ GitHub au passage). Next.js est détecté automatiquement — aucun réglage de build à changer.
 2. Avant de cliquer *Deploy*, ajouter les **variables d'environnement** (mêmes noms que `.env.example`) :
    - `SQUARE_ENVIRONMENT=sandbox`
