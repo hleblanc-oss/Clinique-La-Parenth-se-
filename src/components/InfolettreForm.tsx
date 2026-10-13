@@ -38,7 +38,7 @@ export function InfolettreForm() {
 
   if (etat === "succes") {
     return (
-      <p role="status" className="font-serif text-lg italic text-sauge">
+      <p role="status" className="font-serif text-lg italic text-peche">
         Merci! Vous êtes bien inscrite — à très bientôt.
       </p>
     );
@@ -63,28 +63,24 @@ export function InfolettreForm() {
             if (etat === "erreur") setEtat("repos");
           }}
           aria-invalid={etat === "erreur" ? true : undefined}
-          className="w-full rounded-full border border-creme/25 bg-transparent px-6 py-3.5 text-creme placeholder:text-creme/40 transition-colors duration-[250ms] focus:border-sauge focus:outline-none"
+          className="w-full rounded-full border border-creme/45 bg-transparent px-6 py-3.5 text-creme placeholder:text-creme/75 transition-colors duration-[250ms] focus:border-peche focus:outline-none"
         />
-        <button
-          type="submit"
-          disabled={etat === "envoi"}
-          className="btn btn-clair shrink-0"
-        >
+        <button type="submit" disabled={etat === "envoi"} className="btn btn-clair shrink-0">
           {etat === "envoi" ? "Un instant…" : "S'inscrire"}
         </button>
       </div>
       <div aria-live="polite" className="min-h-[1.25rem]">
         {etat === "erreur" && (
-          <p className="mt-2 text-sm text-sauge">Veuillez entrer une adresse courriel valide.</p>
+          <p className="mt-2 text-sm text-peche">Veuillez entrer une adresse courriel valide.</p>
         )}
         {etat === "indisponible" && (
-          <p className="mt-2 text-sm text-creme/70">
+          <p className="mt-2 text-sm text-creme/90">
             L&rsquo;inscription en ligne arrive bientôt. D&rsquo;ici là, suivez-nous sur{" "}
             <a
               href={clinique.instagram.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="underline decoration-sauge underline-offset-4 hover:text-sauge"
+              className="underline decoration-peche underline-offset-4 hover:text-peche"
             >
               Instagram
             </a>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost, Tangerine } from "next/font/google";
+import { BoutonFlottant } from "@/components/BoutonFlottant";
 import { EnTete } from "@/components/EnTete";
 import { PiedDePage } from "@/components/PiedDePage";
 import { clinique, URL_SITE } from "@/content/clinique";
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
     template: `%s — ${clinique.nom}`,
   },
   description:
-    "Dermo-esthétique par une infirmière à Trois-Rivières. Soins du visage G.M. Collin, analyse de peau personnalisée et réservation en ligne. Ouverture septembre 2026.",
+    "Dermo-esthétique par une infirmière à Trois-Rivières. Soins du visage G.M. Collin, analyse de peau personnalisée et réservation en ligne.",
   keywords: [
     "dermo-esthétique",
     "soins du visage",
@@ -68,6 +69,9 @@ const donneesStructurees = {
     postalCode: clinique.adresse.codePostal,
     addressCountry: "CA",
   },
+  telephone: clinique.telephone,
+  email: clinique.courriel,
+  openingHours: clinique.heuresSchema,
   sameAs: [clinique.instagram.url],
   priceRange: "$$",
 };
@@ -81,7 +85,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <a
           href="#contenu"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-noir focus:px-5 focus:py-2 focus:text-creme"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-encre focus:px-5 focus:py-2 focus:text-creme"
         >
           Aller au contenu
         </a>
@@ -90,6 +94,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <PiedDePage />
+        <BoutonFlottant />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(donneesStructurees) }}

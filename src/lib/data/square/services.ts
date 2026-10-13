@@ -2,10 +2,17 @@ import "server-only";
 import type { Square } from "square";
 import { getSquareClient } from "./client";
 import type { ServiceReservable } from "../types";
+import { apparierSoin } from "@/content/soins";
+import { normaliserNom } from "@/lib/format";
 
 /**
  * Services réservables tirés du catalogue Square (source de vérité).
  * Cache mémoire court (~60 s) pour la performance, comme prévu au brief.
+ *
+ * Les noms du catalogue de la clinique sont rédigés pour la page Square
+ * (« soin hydrolift l G.M Collin », variation « Article de base »…) : chaque
+ * service est apparié au soin éditorial pour afficher un nom propre, et les
+ * variations « avec peeling » deviennent l'option peeling du soin.
  */
 
 const DUREE_CACHE_MS = 60_000;
@@ -15,6 +22,14 @@ let cache: { horodatage: number; services: ServiceReservable[] } | null = null;
 function versEntier(valeur: bigint | number | null | undefined): number | null {
   if (valeur === null || valeur === undefined) return null;
   return Number(valeur);
+}
+
+/** Variation par défaut de Square (« Regular » en anglais, « Article de base » en français). */
+const VARIATION_PAR_DEFAUT = /^(regular|standard|article de base)$/i;
+
+/** Nom de catalogue lisible quand le soin n'est pas reconnu : « soin X | G.M Collin (…) » → « soin X ». */
+function nettoyerNom(nom: string): string {
+  return nom.split(/\s+[|(]|\s+l\s+G\.?M/i)[0].trim();
 }
 
 function mapperVariation(
@@ -28,17 +43,26 @@ function mapperVariation(
 
   const nomItem = item.itemData?.name?.trim() ?? "";
   const nomVariation = donnees.name?.trim() ?? "";
-  const nom =
-    nomVariation && !/^(regular|standard)$/i.test(nomVariation)
-      ? `${nomItem} — ${nomVariation}`
-      : nomItem;
+  const soin = apparierSoin(nomItem);
+  const avecPeeling = normaliserNom(nomVariation).includes("avec peeling");
+
+  let nom: string;
+  if (soin) {
+    nom = avecPeeling ? `${soin.nom} avec peeling` : soin.nom;
+  } else {
+    const base = nettoyerNom(nomItem) || "Soin";
+    nom =
+      nomVariation && !VARIATION_PAR_DEFAUT.test(nomVariation) ? `${base} — ${nomVariation}` : base;
+  }
 
   const dureeMs = versEntier(donnees.serviceDuration);
 
   return {
     variationId: variation.id,
     version: variation.version?.toString() ?? "0",
-    nom: nom || "Soin",
+    nom,
+    slug: soin?.slug ?? null,
+    avecPeeling,
     prixCents: versEntier(donnees.priceMoney?.amount),
     dureeMinutes: dureeMs ? Math.round(dureeMs / 60_000) : null,
   };

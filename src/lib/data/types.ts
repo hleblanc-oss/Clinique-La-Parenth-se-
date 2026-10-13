@@ -8,7 +8,12 @@ export interface ServiceReservable {
   variationId: string;
   /** Version du catalogue, requise par CreateBooking (bigint sérialisé en chaîne). */
   version: string;
+  /** Nom affiché (nom éditorial du soin quand il est reconnu, sinon nom du catalogue). */
   nom: string;
+  /** Soin éditorial correspondant (src/content/soins.ts), s'il est reconnu. */
+  slug: string | null;
+  /** Variation « avec peeling » d'un soin (option +30 $). */
+  avecPeeling: boolean;
   prixCents: number | null;
   dureeMinutes: number | null;
 }

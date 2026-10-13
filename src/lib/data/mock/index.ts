@@ -1,28 +1,39 @@
 import "server-only";
 import type { FournisseurDonnees } from "../provider";
-import type { ConfirmationReservation, Creneau, DemandeReservation, ServiceReservable } from "../types";
-import { soinsReservables } from "@/content/soins";
+import type {
+  ConfirmationReservation,
+  Creneau,
+  DemandeReservation,
+  ServiceReservable,
+} from "../types";
+import { soins } from "@/content/soins";
 
 /**
  * Fournisseur mock — développer et démontrer le site sans compte Square.
- * Reproduit l'horaire prévu de la clinique : mar-ven 9 h à 17 h, sam 9 h à 13 h,
- * fuseau America/Toronto. Déterministe (pas de hasard entre deux rendus).
+ * Reproduit l'horaire de la clinique : mardi et mercredi, 9 h à 19 h,
+ * fuseau America/Toronto, délai minimum de 4 h comme sur Square.
+ * Déterministe (pas de hasard entre deux rendus).
  */
 
 const FUSEAU = "America/Toronto";
 
 /** Horaire hebdomadaire (0 = dimanche … 6 = samedi) : [ouverture, fermeture) en heures locales. */
 const HORAIRE: Record<number, [number, number] | undefined> = {
-  2: [9, 17],
-  3: [9, 17],
-  4: [9, 17],
-  5: [9, 17],
-  6: [9, 13],
+  2: [9, 19],
+  3: [9, 19],
 };
+
+/** Délai minimum avant un rendez-vous (réglage « cutoff » de Square : 4 h). */
+const DELAI_MINIMUM_MS = 4 * 3600_000;
 
 const PAS_MINUTES = 45;
 
-function partiesLocales(instant: Date): { annee: number; mois: number; jour: number; jourSemaine: number } {
+function partiesLocales(instant: Date): {
+  annee: number;
+  mois: number;
+  jour: number;
+  jourSemaine: number;
+} {
   const fmt = new Intl.DateTimeFormat("en-CA", {
     timeZone: FUSEAU,
     year: "numeric",
@@ -44,7 +55,8 @@ function partiesLocales(instant: Date): { annee: number; mois: number; jour: num
 /** Décalage (minutes à soustraire de l'heure locale pour obtenir l'UTC) au moment donné. */
 function decalageMinutes(instant: Date): number {
   const fmt = new Intl.DateTimeFormat("en-US", { timeZone: FUSEAU, timeZoneName: "longOffset" });
-  const nom = fmt.formatToParts(instant).find((p) => p.type === "timeZoneName")?.value ?? "GMT+00:00";
+  const nom =
+    fmt.formatToParts(instant).find((p) => p.type === "timeZoneName")?.value ?? "GMT+00:00";
   const m = nom.match(/GMT([+-])(\d{2}):(\d{2})/);
   if (!m) return 0;
   const signe = m[1] === "-" ? -1 : 1;
@@ -52,7 +64,13 @@ function decalageMinutes(instant: Date): number {
 }
 
 /** Instant UTC correspondant à une heure locale de Toronto pour une date donnée. */
-function instantLocal(annee: number, mois: number, jour: number, heures: number, minutes: number): Date {
+function instantLocal(
+  annee: number,
+  mois: number,
+  jour: number,
+  heures: number,
+  minutes: number,
+): Date {
   const approx = new Date(Date.UTC(annee, mois - 1, jour, heures, minutes));
   const decalage = decalageMinutes(approx);
   return new Date(approx.getTime() - decalage * 60_000);
@@ -74,12 +92,17 @@ function genererCreneaux(dureeMinutes: number, debutISO: string, finISO: string)
     if (!plage) continue;
     const [ouverture, fermeture] = plage;
 
-    for (let minute = ouverture * 60; minute + dureeMinutes <= fermeture * 60; minute += PAS_MINUTES) {
+    for (
+      let minute = ouverture * 60;
+      minute + dureeMinutes <= fermeture * 60;
+      minute += PAS_MINUTES
+    ) {
       const h = Math.floor(minute / 60);
       const m = minute % 60;
       if (creneauRetire(local.jour, h, m)) continue;
       const instant = instantLocal(local.annee, local.mois, local.jour, h, m);
-      if (instant < debut || instant >= fin || instant.getTime() < Date.now()) continue;
+      if (instant < debut || instant >= fin || instant.getTime() < Date.now() + DELAI_MINIMUM_MS)
+        continue;
       creneaux.push({
         debut: instant.toISOString(),
         teamMemberId: "mock-karianne",
@@ -93,13 +116,30 @@ function genererCreneaux(dureeMinutes: number, debutISO: string, finISO: string)
   return creneaux;
 }
 
-const services: ServiceReservable[] = soinsReservables.map((soin) => ({
-  variationId: `mock-${soin.slug}`,
-  version: "1",
-  nom: soin.nom,
-  prixCents: soin.prix * 100,
-  dureeMinutes: soin.dureeMinutes,
-}));
+/** Comme au catalogue Square : une variation par soin, plus « avec peeling » quand offerte. */
+const services: ServiceReservable[] = soins.flatMap((soin) => {
+  const base: ServiceReservable = {
+    variationId: `mock-${soin.slug}`,
+    version: "1",
+    nom: soin.nom,
+    slug: soin.slug,
+    avecPeeling: false,
+    prixCents: soin.prix * 100,
+    dureeMinutes: soin.dureeMinutes,
+  };
+  if (!soin.avecPeeling) return [base];
+  return [
+    base,
+    {
+      ...base,
+      variationId: `mock-${soin.slug}-peeling`,
+      nom: `${soin.nom} avec peeling`,
+      avecPeeling: true,
+      prixCents: soin.avecPeeling.prix * 100,
+      dureeMinutes: soin.avecPeeling.dureeMinutes,
+    },
+  ];
+});
 
 export const fournisseurMock: FournisseurDonnees = {
   nom: "mock",

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { clinique } from "@/content/clinique";
+import { clinique, lienTelephone } from "@/content/clinique";
 import { courrielValide } from "@/lib/format";
 
 type Etat = "repos" | "envoi" | "succes" | "indisponible" | "erreur";
@@ -42,11 +42,9 @@ export function ContactForm() {
 
   if (etat === "succes") {
     return (
-      <div role="status" className="rounded-2xl bg-sauge-clair p-7">
-        <p className="font-serif text-xl italic text-noir">Merci pour votre message!</p>
-        <p className="mt-2 text-sm leading-relaxed">
-          Nous vous répondrons dès que possible.
-        </p>
+      <div role="status" className="rounded-2xl bg-nude p-7">
+        <p className="font-serif text-xl italic text-encre">Merci pour votre message!</p>
+        <p className="mt-2 text-sm leading-relaxed">Nous vous répondrons dès que possible.</p>
       </div>
     );
   }
@@ -99,33 +97,23 @@ export function ContactForm() {
 
       <div aria-live="polite">
         {etat === "erreur" && (
-          <p className="text-sm text-sauge-fonce">
+          <p className="text-sm text-brun">
             Veuillez remplir tous les champs avec une adresse courriel valide.
           </p>
         )}
         {etat === "indisponible" && (
-          <p className="rounded-xl bg-sauge-clair/70 p-4 text-sm leading-relaxed">
-            Le formulaire n&rsquo;est pas encore en service. En attendant, écrivez-nous sur{" "}
+          <p className="rounded-xl bg-nude/70 p-4 text-sm leading-relaxed">
+            Le formulaire n&rsquo;est pas encore en service. Écrivez-nous directement à{" "}
             <a
-              href={clinique.instagram.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-sauge-fonce underline decoration-sauge underline-offset-2"
+              href={`mailto:${clinique.courriel}`}
+              className="break-all font-medium text-brun underline decoration-caramel underline-offset-2"
             >
-              Instagram
+              {clinique.courriel}
+            </a>{" "}
+            ou appelez-nous au{" "}
+            <a href={lienTelephone} className="font-medium text-brun">
+              {clinique.telephone}
             </a>
-            {clinique.telephone ? (
-              <>
-                {" "}
-                ou appelez-nous au{" "}
-                <a
-                  href={`tel:${clinique.telephone.replace(/\D/g, "")}`}
-                  className="font-medium text-sauge-fonce"
-                >
-                  {clinique.telephone}
-                </a>
-              </>
-            ) : null}
             .
           </p>
         )}

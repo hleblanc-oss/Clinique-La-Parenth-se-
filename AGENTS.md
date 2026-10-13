@@ -12,11 +12,11 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 Brief complet : voir README.md. Règles non négociables pour toute contribution :
 
-## Palette (validée par la cliente)
-- **Palette en révision (12 oct. 2026)** : à la demande du développeur, des démos brunes inspirées du logo officiel (`public/logo/`) sont à l'essai dans `demos/directions.html` (2 options soumises à la cliente : Fusion et Départ). L'interdiction du brun ci-dessous ne s'applique pas à ces démos; cette section sera réécrite quand la cliente aura choisi.
-- Strictement crème (#F8F4EF) + sauge (#A3B29A / clair #E4E9DF / foncé #5F7055) + noir (#211D1A), corps de texte #2F332C.
-- **INTERDIT : brun/taupe/beige, et blanc pur (#FFFFFF).** La palette Tailwind par défaut est retirée dans `globals.css` — ne pas la réintroduire.
-- `--sauge` (#A3B29A) jamais pour du texte sur fond clair (décoratif seulement); texte vert = `--sauge-fonce`.
+## Palette (choisie par la cliente — modèle « Fusion », 13 oct. 2026)
+- Tons du logo officiel (`public/logo/`), tokens dans `globals.css` : crème #FBF4EE (fond), nude #F6E4D7 (sections alternées), pêche #FCE6D6 (texte clair sur photo ou sur brun), sable #DDBEA9, caramel #CA987E, brun #805639 (boutons, texte d'accent, pied de page), brun foncé #5E3F2A (survol), encre #3A2A22 (titres), texte #4A3A31 (corps).
+- **INTERDIT : blanc pur (#FFFFFF).** La palette Tailwind par défaut est retirée dans `globals.css` — ne pas la réintroduire. L'ancienne palette crème + sauge est abandonnée.
+- `caramel` et `sable` jamais pour du texte sur fond clair (décoratif seulement); texte d'accent = `brun`.
+- Design de référence : modèle Fusion de `demos/directions.html` (grande photo en haut de page, carte des soins façon menu, arches, badge rotatif).
 
 ## Typographie
 - Titres : Cormorant Garamond (400–500). Corps/nav/boutons/prix : Jost. 
@@ -34,4 +34,4 @@ Brief complet : voir README.md. Règles non négociables pour toute contribution
 ## Contenu
 - Français québécois soigné, vouvoiement. Mobile d'abord (<768 px). 
 - **Karianne est infirmière, PAS « infirmière clinicienne »** (correction de la cliente, 12 oct. 2026). Ne jamais écrire « clinicienne ».
-- Prévoir chargement (skeletons crème/sauge), vide, erreur (message doux + repli contact) pour tout appel réseau.
+- Prévoir chargement (skeletons crème/nude), vide, erreur (message doux + repli téléphone/courriel) pour tout appel réseau.

@@ -4,9 +4,12 @@
  *   npx tsx scripts/seed-sandbox.ts
  *
  * Crée/synchronise dans le sandbox :
- *  1. Location : fuseau America/Toronto + heures d'affaires mar-ven 9h-17h, sam 9h-13h
+ *  1. Location : fuseau America/Toronto + heures d'affaires mardi et mercredi 9 h-19 h
  *  2. Team member « Karianne » (ACTIVE, toutes les locations)
- *  3. Trois services APPOINTMENTS_SERVICE identiques aux vrais, réservables par Karianne
+ *  3. Les 7 services APPOINTMENTS_SERVICE du vrai catalogue de la clinique, avec
+ *     leurs noms exacts (« soin hydrolift l G.M Collin », variation « Article de base »,
+ *     variations « avec peeling »…) pour tester l'appariement du site comme en production.
+ *     Les 3 services de test de la première version du seed sont retirés.
  *  4. Test SearchAvailability — si aucune dispo ne sort, le script l'explique précisément
  *
  * Les heures de travail Appointments du personnel n'ont PAS d'API d'écriture
@@ -34,18 +37,62 @@ const client = new SquareClient({
       : SquareEnvironment.Sandbox,
 });
 
-const SERVICES_CIBLES = [
-  { nom: "Soin Oxygénant", prixCents: 13500, dureeMinutes: 75 },
-  { nom: "Soin Collagène 90+", prixCents: 15000, dureeMinutes: 75 },
-  { nom: "Consultation / analyse de peau", prixCents: 2500, dureeMinutes: 20 },
-] as const;
+interface ServiceCible {
+  nom: string;
+  variations: { nom: string; prixCents: number; dureeMinutes: number }[];
+}
+
+/** Copie conforme du catalogue de la clinique (page de réservation Square, octobre 2026). */
+const SERVICES_CIBLES: ServiceCible[] = [
+  {
+    nom: "consultation/ analyse de peau",
+    variations: [{ nom: "Article de base", prixCents: 2500, dureeMinutes: 20 }],
+  },
+  {
+    nom: "soin Oxygénant | G.M Collin ( peau grasse et à tendance acnéique",
+    variations: [{ nom: "Soin oxygénant", prixCents: 13500, dureeMinutes: 90 }],
+  },
+  {
+    nom: "soin Algomask | G.M Collin ( peau sensible/ déshydratée)",
+    variations: [
+      { nom: "Soin Algomask", prixCents: 13000, dureeMinutes: 90 },
+      { nom: "Soin Algomask avec peeling", prixCents: 16000, dureeMinutes: 90 },
+    ],
+  },
+  {
+    nom: "soin hydrolift l G.M Collin",
+    variations: [
+      { nom: "Soin hydrolifting", prixCents: 13500, dureeMinutes: 75 },
+      { nom: "Soin hydrolifting avec peeling", prixCents: 16500, dureeMinutes: 90 },
+    ],
+  },
+  {
+    nom: "Soin Collagène 90+ l G.M Collin ( Anti-âge et réparation)",
+    variations: [
+      { nom: "Soin Collagène 90+", prixCents: 15000, dureeMinutes: 90 },
+      { nom: "Soin Collagène 90+ avec peeling", prixCents: 18000, dureeMinutes: 90 },
+    ],
+  },
+  {
+    nom: "Soin peeling seul",
+    variations: [{ nom: "Article de base", prixCents: 8000, dureeMinutes: 30 }],
+  },
+  {
+    nom: "Soin du dos G.M Collin",
+    variations: [{ nom: "Article de base", prixCents: 12000, dureeMinutes: 75 }],
+  },
+];
+
+/** Services de test créés par la première version du seed, remplacés par les vrais noms. */
+const SERVICES_OBSOLETES = [
+  "Soin Oxygénant",
+  "Soin Collagène 90+",
+  "Consultation / analyse de peau",
+];
 
 const HEURES_AFFAIRES: Square.BusinessHoursPeriod[] = [
-  { dayOfWeek: "TUE", startLocalTime: "09:00", endLocalTime: "17:00" },
-  { dayOfWeek: "WED", startLocalTime: "09:00", endLocalTime: "17:00" },
-  { dayOfWeek: "THU", startLocalTime: "09:00", endLocalTime: "17:00" },
-  { dayOfWeek: "FRI", startLocalTime: "09:00", endLocalTime: "17:00" },
-  { dayOfWeek: "SAT", startLocalTime: "09:00", endLocalTime: "13:00" },
+  { dayOfWeek: "TUE", startLocalTime: "09:00", endLocalTime: "19:00" },
+  { dayOfWeek: "WED", startLocalTime: "09:00", endLocalTime: "19:00" },
 ];
 
 function normaliser(nom: string): string {
@@ -62,7 +109,9 @@ function afficherErreurSquare(contexte: string, erreur: unknown): never {
     console.error(`\nÉCHEC — ${contexte}`);
     console.error(`  Statut HTTP : ${erreur.statusCode}`);
     for (const e of erreur.errors) {
-      console.error(`  [${e.category}/${e.code}] ${e.detail ?? ""} ${e.field ? `(champ: ${e.field})` : ""}`);
+      console.error(
+        `  [${e.category}/${e.code}] ${e.detail ?? ""} ${e.field ? `(champ: ${e.field})` : ""}`,
+      );
     }
   } else {
     console.error(`\nÉCHEC — ${contexte} :`, erreur);
@@ -79,7 +128,7 @@ async function majLocation(): Promise<void> {
       JSON.stringify(location?.businessHours?.periods ?? []) === JSON.stringify(HEURES_AFFAIRES);
 
     if (bonFuseau && bonnesHeures) {
-      console.log("1. Location déjà configurée (America/Toronto, mar-ven 9-17, sam 9-13)");
+      console.log("1. Location déjà configurée (America/Toronto, mardi et mercredi 9 h-19 h)");
       return;
     }
 
@@ -90,7 +139,7 @@ async function majLocation(): Promise<void> {
         businessHours: { periods: HEURES_AFFAIRES },
       },
     });
-    console.log("1. Location mise à jour : fuseau America/Toronto, heures mar-ven 9-17, sam 9-13");
+    console.log("1. Location mise à jour : fuseau America/Toronto, mardi et mercredi 9 h-19 h");
   } catch (erreur) {
     afficherErreurSquare("mise à jour de la location", erreur);
   }
@@ -140,74 +189,67 @@ async function servicesExistants(): Promise<Map<string, Square.CatalogObject.Ite
   return parNom;
 }
 
+function idTemporaire(...parties: string[]): string {
+  return `#${parties.map((p) => normaliser(p).replace(/ /g, "-")).join("--")}`;
+}
+
+async function retirerServicesObsoletes(existants: Map<string, Square.CatalogObject.Item>) {
+  const ids = SERVICES_OBSOLETES.map((nom) => existants.get(normaliser(nom))?.id).filter(
+    (id): id is string => Boolean(id),
+  );
+  if (!ids.length) return;
+  await client.catalog.batchDelete({ objectIds: ids });
+  console.log(`3. ${ids.length} service(s) de test obsolète(s) retiré(s) du catalogue sandbox`);
+}
+
 async function assurerServices(teamMemberId: string): Promise<Map<string, string>> {
   try {
+    await retirerServicesObsoletes(await servicesExistants());
     const existants = await servicesExistants();
     const aUpserter: Square.CatalogObject[] = [];
 
     for (const cible of SERVICES_CIBLES) {
       const existant = existants.get(normaliser(cible.nom));
+      const itemId = existant?.id ?? idTemporaire(cible.nom);
+      const variationsExistantes = (existant?.itemData?.variations ?? []).filter(
+        (v): v is Square.CatalogObject.ItemVariation => v.type === "ITEM_VARIATION",
+      );
 
-      if (existant) {
+      const variations: Square.CatalogObject[] = cible.variations.map((v) => {
         // Mise à jour en place (id + version conservés → pas de doublon)
-        const variations = existant.itemData?.variations ?? [];
-        const variation = variations.find(
-          (v): v is Square.CatalogObject.ItemVariation => v.type === "ITEM_VARIATION",
+        const actuelle = variationsExistantes.find(
+          (x) => normaliser(x.itemVariationData?.name ?? "") === normaliser(v.nom),
         );
-        aUpserter.push({
-          ...existant,
-          itemData: {
-            ...existant.itemData,
-            name: cible.nom,
-            productType: "APPOINTMENTS_SERVICE",
-            variations: [
-              {
-                type: "ITEM_VARIATION",
-                id: variation?.id ?? `#${normaliser(cible.nom).replace(/ /g, "-")}-v`,
-                ...(variation?.version !== undefined ? { version: variation.version } : {}),
-                presentAtAllLocations: true,
-                itemVariationData: {
-                  ...variation?.itemVariationData,
-                  itemId: existant.id,
-                  name: "Standard",
-                  pricingType: "FIXED_PRICING",
-                  priceMoney: { amount: BigInt(cible.prixCents), currency: "CAD" },
-                  serviceDuration: BigInt(cible.dureeMinutes * 60_000),
-                  availableForBooking: true,
-                  teamMemberIds: [teamMemberId],
-                },
-              },
-            ],
-          },
-        });
-      } else {
-        const idTemp = `#${normaliser(cible.nom).replace(/ /g, "-")}`;
-        aUpserter.push({
-          type: "ITEM",
-          id: idTemp,
+        return {
+          type: "ITEM_VARIATION",
+          id: actuelle?.id ?? idTemporaire(cible.nom, v.nom),
+          ...(actuelle?.version !== undefined ? { version: actuelle.version } : {}),
           presentAtAllLocations: true,
-          itemData: {
-            name: cible.nom,
-            productType: "APPOINTMENTS_SERVICE",
-            variations: [
-              {
-                type: "ITEM_VARIATION",
-                id: `${idTemp}-v`,
-                presentAtAllLocations: true,
-                itemVariationData: {
-                  itemId: idTemp,
-                  name: "Standard",
-                  pricingType: "FIXED_PRICING",
-                  priceMoney: { amount: BigInt(cible.prixCents), currency: "CAD" },
-                  serviceDuration: BigInt(cible.dureeMinutes * 60_000),
-                  availableForBooking: true,
-                  teamMemberIds: [teamMemberId],
-                },
-              },
-            ],
+          itemVariationData: {
+            ...actuelle?.itemVariationData,
+            itemId,
+            name: v.nom,
+            pricingType: "FIXED_PRICING",
+            priceMoney: { amount: BigInt(v.prixCents), currency: "CAD" },
+            serviceDuration: BigInt(v.dureeMinutes * 60_000),
+            availableForBooking: true,
+            teamMemberIds: [teamMemberId],
           },
-        });
-      }
+        };
+      });
+
+      aUpserter.push({
+        ...(existant ?? {}),
+        type: "ITEM",
+        id: itemId,
+        presentAtAllLocations: true,
+        itemData: {
+          ...existant?.itemData,
+          name: cible.nom,
+          productType: "APPOINTMENTS_SERVICE",
+          variations,
+        },
+      } as Square.CatalogObject);
     }
 
     await client.catalog.batchUpsert({
@@ -220,17 +262,17 @@ async function assurerServices(teamMemberId: string): Promise<Map<string, string
     const variationParNom = new Map<string, string>();
     for (const cible of SERVICES_CIBLES) {
       const item = apres.get(normaliser(cible.nom));
-      const variation = item?.itemData?.variations?.find(
+      const variations = (item?.itemData?.variations ?? []).filter(
         (v): v is Square.CatalogObject.ItemVariation => v.type === "ITEM_VARIATION",
       );
-      if (!item?.id || !variation?.id) {
-        throw new Error(`Service « ${cible.nom} » introuvable après l'upsert.`);
+      if (!item?.id || variations.length !== cible.variations.length) {
+        throw new Error(`Service « ${cible.nom} » incomplet après l'upsert.`);
       }
-      variationParNom.set(cible.nom, variation.id);
-      console.log(
-        `3. Service « ${cible.nom} » prêt — item ${item.id}, variation ${variation.id}, ` +
-          `${(cible.prixCents / 100).toFixed(0)} $, ${cible.dureeMinutes} min`,
-      );
+      variationParNom.set(cible.nom, variations[0].id!);
+      const resume = cible.variations
+        .map((v) => `${v.nom} ${(v.prixCents / 100).toFixed(0)} $ ${v.dureeMinutes} min`)
+        .join(" / ");
+      console.log(`3. « ${cible.nom} » prêt (${item.id}) — ${resume}`);
     }
     return variationParNom;
   } catch (erreur) {
@@ -268,7 +310,7 @@ async function testerDisponibilites(variationId: string): Promise<void> {
         "     1. Developer Dashboard → votre application → « Open sandbox seller dashboard »",
         "        (ou https://app.squareupsandbox.com après connexion au compte de test)",
         "     2. Appointments → Settings → Staff : Karianne → définir ses heures",
-        "        (mar-ven 9 h à 17 h, sam 9 h à 13 h)",
+        "        (mardi et mercredi, 9 h à 19 h)",
         "     3. Relancer : npx tsx scripts/seed-sandbox.ts",
       ].join("\n"),
     );
@@ -302,7 +344,7 @@ async function principal() {
   await majLocation();
   const karianneId = await assurerKarianne();
   const variations = await assurerServices(karianneId);
-  const premiereVariation = variations.get("Consultation / analyse de peau")!;
+  const premiereVariation = variations.get(SERVICES_CIBLES[0].nom)!;
   await testerDisponibilites(premiereVariation);
   console.log("\nSeed terminé.");
 }

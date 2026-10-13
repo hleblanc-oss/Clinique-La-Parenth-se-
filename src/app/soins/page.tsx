@@ -1,155 +1,101 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { CarteSoin } from "@/components/CarteSoin";
+import { CarteConsultation } from "@/components/CarteConsultation";
+import { CarteDesSoins } from "@/components/CarteDesSoins";
 import { Reveal } from "@/components/Reveal";
-import { SectionEtiquette } from "@/components/SectionEtiquette";
 import { clinique } from "@/content/clinique";
-import { soins, soinParSlug } from "@/content/soins";
 
 export const metadata: Metadata = {
   title: "Soins et tarifs",
   description:
-    "Carte des soins du visage G.M. Collin à Trois-Rivières : consultation et analyse de peau, soins oxygénant, Algomask+, Hydrolifting, Collagène 90+, peeling et soin du dos.",
+    "Carte des soins G.M. Collin à Trois-Rivières : consultation et analyse de peau, soins Oxygénant, Algomask, Hydrolifting, Collagène 90+, peeling et soin du dos.",
 };
 
 export default function PageSoins() {
-  const consultation = soinParSlug("consultation-analyse-de-peau")!;
-  const visage = soins.filter((s) => s.categorie === "visage");
-  const peeling = soinParSlug("peeling")!;
-  const ajoutPeeling = soinParSlug("ajout-peeling")!;
-  const corps = soins.filter((s) => s.categorie === "corps");
-
   return (
     <>
-      {/* Entête de page */}
-      <section className="py-16 sm:py-24">
+      {/* Bandeau photo */}
+      <section className="relative isolate overflow-hidden">
+        <Image
+          src="/images/soin-peeling.jpg"
+          alt="Application d'un peeling au pinceau pendant un soin du visage"
+          fill
+          preload
+          sizes="100vw"
+          className="hero-zoom -z-20 object-cover object-[50%_40%]"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(58,42,34,.35)_0%,rgba(58,42,34,.82)_100%)]"
+        />
+        <Reveal className="conteneur pb-24 pt-20 text-center sm:pb-28 sm:pt-28">
+          <p className="surtitre text-peche">La carte des soins</p>
+          <h1 className="mx-auto mt-5 max-w-3xl font-serif text-[clamp(2.8rem,6.5vw,5.5rem)] italic leading-[0.95] text-creme">
+            Des soins choisis pour votre peau
+          </h1>
+          <p className="mx-auto mt-6 max-w-xl leading-relaxed text-peche">
+            Chaque soin du visage inclut l&rsquo;analyse de votre peau. Tous les protocoles sont
+            réalisés avec les produits {clinique.partenaire}.
+          </p>
+        </Reveal>
+      </section>
+
+      <div className="conteneur relative z-10 -mt-12 mb-4 flex justify-center">
+        <CarteConsultation className="w-full max-w-[21rem]" />
+      </div>
+
+      <section className="py-14 sm:py-20">
+        <div className="conteneur max-w-[52rem]">
+          <Reveal>
+            <CarteDesSoins />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Bon à savoir */}
+      <section className="bg-nude py-16 sm:py-24">
+        <div className="conteneur grid gap-10 md:grid-cols-3">
+          {[
+            {
+              titre: "L'analyse de peau, toujours",
+              texte:
+                "Chaque soin du visage commence par l'analyse de votre peau. Nouvelle cliente? La consultation à 25 $ est gratuite si vous réservez un soin ensuite.",
+            },
+            {
+              titre: "Avant un peeling",
+              texte:
+                "Quelques précautions à prendre les 3 jours avant et après le traitement : elles sont détaillées sur la page du peeling.",
+              lien: { href: "/soins/peeling", libelle: "Voir les précautions" },
+            },
+            {
+              titre: "Annulation",
+              texte: clinique.politiqueAnnulation,
+            },
+          ].map((bloc, i) => (
+            <Reveal key={bloc.titre} delai={i * 0.08}>
+              <h2 className="font-serif text-2xl">{bloc.titre}</h2>
+              <p className="mt-3 text-[0.94rem] leading-relaxed">{bloc.texte}</p>
+              {bloc.lien && (
+                <Link href={bloc.lien.href} className="lien-souligne mt-4 inline-block">
+                  {bloc.lien.libelle}
+                </Link>
+              )}
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* Appel final */}
+      <section className="py-20 sm:py-28">
         <div className="conteneur text-center">
           <Reveal>
-            <p className="text-xs font-medium uppercase tracking-[0.24em] text-sauge-fonce">
-              La carte des soins
-            </p>
-            <h1 className="mx-auto mt-4 max-w-2xl font-serif text-4xl sm:text-5xl lg:text-6xl">
-              Des soins choisis pour votre peau
-            </h1>
-            <p className="mx-auto mt-6 max-w-xl font-serif text-lg italic text-sauge-fonce sm:text-xl">
-              Tous les soins sont réalisés avec les produits {clinique.partenaire}, partenaire
-              exclusif de la clinique.
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Consultation mise en avant */}
-      <section className="pb-16 sm:pb-20">
-        <div className="conteneur">
-          <Reveal>
-            <div className="relative overflow-hidden rounded-3xl bg-noir px-7 py-10 sm:px-12 sm:py-14">
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -right-6 -top-10 select-none font-serif text-[12rem] leading-none text-creme/5"
-              >
-                )
-              </span>
-              <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-[0.2em] text-sauge">
-                    Nouvelle cliente? Commencez ici
-                  </p>
-                  <h2 className="mt-3 font-serif text-3xl text-creme sm:text-4xl">
-                    {consultation.nom}
-                  </h2>
-                  <p className="mt-4 max-w-xl text-sm leading-relaxed text-creme/75 sm:text-base">
-                    {consultation.accroche} Un regard d&rsquo;infirmière sur votre
-                    peau, pour repartir avec un plan clair — en clinique comme à la maison.
-                  </p>
-                  <p className="mt-5 font-sans text-creme">
-                    <span className="text-2xl font-medium">{consultation.prixAffiche}</span>
-                    <span className="ml-3 text-xs uppercase tracking-[0.14em] text-creme/60">
-                      {consultation.duree}
-                    </span>
-                  </p>
-                </div>
-                <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
-                  <Link
-                    href={`/rendez-vous?soin=${consultation.slug}`}
-                    className="btn btn-clair"
-                  >
-                    Réserver ma consultation
-                  </Link>
-                  <Link
-                    href={`/soins/${consultation.slug}`}
-                    className="btn border border-creme/30 text-creme hover:bg-creme/10"
-                  >
-                    En savoir plus
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Soins du visage */}
-      <section className="bg-sauge-clair py-16 sm:py-24">
-        <div className="conteneur">
-          <Reveal>
-            <SectionEtiquette etiquette="En cabine" titre="Soins du visage" />
-          </Reveal>
-          <div className="mt-10 grid gap-6 pt-3 sm:grid-cols-2 lg:grid-cols-3">
-            {visage.map((soin, i) => (
-              <Reveal key={soin.slug} delai={(i % 3) * 0.08} className="h-full">
-                <CarteSoin soin={soin} />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Peeling + option */}
-      <section className="py-16 sm:py-24">
-        <div className="conteneur grid gap-6 lg:grid-cols-2">
-          <Reveal className="h-full">
-            <CarteSoin soin={peeling} />
-          </Reveal>
-          <Reveal delai={0.08}>
-            <div className="flex h-full flex-col justify-center rounded-2xl border border-dashed border-sauge-fonce/40 bg-sauge-clair/50 p-7">
-              <p className="text-xs font-medium uppercase tracking-[0.16em] text-sauge-fonce">
-                Option sur tous les soins du visage
-              </p>
-              <h3 className="mt-2 font-serif text-2xl text-noir">{ajoutPeeling.nom}</h3>
-              <p className="mt-3 text-sm leading-relaxed">{ajoutPeeling.accroche}</p>
-              <p className="mt-4 font-sans text-lg font-medium text-noir">
-                {ajoutPeeling.prixAffiche}
-              </p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Corps */}
-      <section className="pb-16 sm:pb-24">
-        <div className="conteneur">
-          <Reveal>
-            <SectionEtiquette etiquette="Aussi à la carte" titre="Soins du corps" />
-          </Reveal>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {corps.map((soin) => (
-              <Reveal key={soin.slug} className="h-full">
-                <CarteSoin soin={soin} />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA final */}
-      <section className="pb-20 sm:pb-28">
-        <div className="conteneur text-center">
-          <Reveal>
-            <h2 className="font-serif text-3xl sm:text-4xl">Votre peau mérite sa parenthèse</h2>
-            <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed sm:text-base">
-              Les rendez-vous se prennent en ligne, directement dans l&rsquo;horaire de la
-              clinique.
+            <h2 className="font-serif text-[clamp(2.2rem,4.4vw,3.4rem)]">
+              Votre peau mérite sa <em className="text-brun">parenthèse</em>
+            </h2>
+            <p className="mx-auto mt-4 max-w-md leading-relaxed">
+              Les rendez-vous se prennent en ligne, directement dans l&rsquo;horaire de la clinique
+              : {clinique.heuresResume.toLowerCase()}.
             </p>
             <Link href="/rendez-vous" className="btn btn-primaire mt-8">
               Prendre rendez-vous

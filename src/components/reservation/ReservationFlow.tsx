@@ -12,8 +12,9 @@ import {
   formatDuree,
   formatHeure,
   formatPrix,
-  normaliserNom,
 } from "@/lib/format";
+import { clinique, lienTelephone } from "@/content/clinique";
+import { soinParSlug } from "@/content/soins";
 import type {
   ConfirmationReservation,
   Creneau,
@@ -48,32 +49,35 @@ function fenetreSemaine(offset: number): { debut: Date; fin: Date } {
   return { debut, fin };
 }
 
-function trouverServicePreselectionne(
-  services: ServiceReservable[],
-  cible: { nomSquare: string; nom: string },
-): ServiceReservable | undefined {
-  const nomSquare = normaliserNom(cible.nomSquare);
-  const nom = normaliserNom(cible.nom);
-  return (
-    services.find((s) => normaliserNom(s.nom) === nomSquare) ??
-    services.find((s) => normaliserNom(s.nom) === nom) ??
-    services.find(
-      (s) => normaliserNom(s.nom).includes(nomSquare) || nomSquare.includes(normaliserNom(s.nom)),
-    )
-  );
+/** Un soin à choisir, avec sa variation « avec peeling » quand le catalogue l'offre. */
+interface Choix {
+  base: ServiceReservable;
+  peeling: ServiceReservable | null;
 }
 
-export function ReservationFlow({
-  soinPreselectionne,
-}: {
-  soinPreselectionne?: { nomSquare: string; nom: string };
-}) {
+function regrouper(services: ServiceReservable[]): Choix[] {
+  const aUneBase = (slug: string) => services.some((s) => s.slug === slug && !s.avecPeeling);
+  const choix = services
+    .filter((s) => !s.avecPeeling || !s.slug || !aUneBase(s.slug))
+    .map((base) => ({
+      base,
+      peeling:
+        base.slug && !base.avecPeeling
+          ? (services.find((s) => s.slug === base.slug && s.avecPeeling) ?? null)
+          : null,
+    }));
+  const ordre = (c: Choix) => (c.base.slug ? (soinParSlug(c.base.slug)?.ordre ?? 99) : 99);
+  return choix.sort((a, b) => ordre(a) - ordre(b));
+}
+
+export function ReservationFlow({ soinPreselectionne }: { soinPreselectionne?: string }) {
   const mouvementReduit = useReducedMotion();
 
   const [etape, setEtape] = useState<Etape>(1);
   const [configure, setConfigure] = useState<boolean | null>(null);
   const [erreurServices, setErreurServices] = useState(false);
-  const [services, setServices] = useState<ServiceReservable[]>([]);
+  const [choix, setChoix] = useState<Choix[]>([]);
+  const [choisi, setChoisi] = useState<Choix | null>(null);
   const [service, setService] = useState<ServiceReservable | null>(null);
 
   const [semaine, setSemaine] = useState(0);
@@ -100,18 +104,19 @@ export function ReservationFlow({
         });
         if (!reponse.ok) throw new Error();
         const corps = (await reponse.json()) as ReponseServices;
+        const groupes = regrouper(corps.services);
         setConfigure(corps.configure);
-        setServices(corps.services);
+        setChoix(groupes);
 
-        // Arrivée via « Réserver ce soin » : on saute directement au choix du moment.
+        // Arrivée via « Réserver ce soin » : on saute directement au choix du moment,
+        // sauf si le soin offre l'option peeling (on la propose d'abord).
         const cible = preselection.current;
         preselection.current = undefined;
-        if (cible && corps.services.length) {
-          const trouve = trouverServicePreselectionne(corps.services, cible);
-          if (trouve) {
-            setService(trouve);
-            setEtape(2);
-          }
+        const trouve = cible ? groupes.find((c) => c.base.slug === cible) : undefined;
+        if (trouve) {
+          setChoisi(trouve);
+          setService(trouve.base);
+          if (!trouve.peeling) setEtape(2);
         }
       } catch {
         if (!controleur.signal.aborted) {
@@ -282,25 +287,25 @@ export function ReservationFlow({
         <ol className="mb-10 flex items-center justify-center gap-2 sm:gap-4">
           {ETAPES.map((e, i) => (
             <li key={e.numero} className="flex items-center gap-2 sm:gap-4">
-              {i > 0 && <span aria-hidden className="h-px w-6 bg-sauge sm:w-10" />}
+              {i > 0 && <span aria-hidden className="h-px w-6 bg-caramel sm:w-10" />}
               <span
                 aria-current={etape === e.numero ? "step" : undefined}
                 className={`flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.12em] sm:text-xs ${
                   etape === e.numero
-                    ? "text-noir"
+                    ? "text-encre"
                     : etape > e.numero
-                      ? "text-sauge-fonce"
-                      : "text-texte-doux/50"
+                      ? "text-brun"
+                      : "text-texte/50"
                 }`}
               >
                 <span
                   aria-hidden
                   className={`flex h-7 w-7 items-center justify-center rounded-full border font-sans text-xs ${
                     etape === e.numero
-                      ? "border-noir bg-noir text-creme"
+                      ? "border-encre bg-encre text-creme"
                       : etape > e.numero
-                        ? "border-sauge-fonce bg-sauge-clair text-sauge-fonce"
-                        : "border-texte-doux/30"
+                        ? "border-brun bg-nude text-brun"
+                        : "border-texte/30"
                   }`}
                 >
                   {etape > e.numero ? "✓" : e.numero}
@@ -327,7 +332,7 @@ export function ReservationFlow({
                   <div key={i} className="skeleton h-[4.5rem] w-full" />
                 ))}
               </div>
-            ) : services.length === 0 ? (
+            ) : choix.length === 0 ? (
               <div className="mt-6">
                 <PanneauRepli
                   titre="Aucun soin réservable pour le moment"
@@ -336,37 +341,72 @@ export function ReservationFlow({
               </div>
             ) : (
               <div role="radiogroup" aria-label="Soins offerts" className="mt-6 space-y-3">
-                {services.map((s) => (
-                  <button
-                    key={s.variationId}
-                    type="button"
-                    role="radio"
-                    aria-checked={service?.variationId === s.variationId}
-                    onClick={() => setService(s)}
-                    className={`flex w-full items-baseline justify-between gap-4 rounded-2xl border p-5 text-left transition-colors duration-[250ms] ${
-                      service?.variationId === s.variationId
-                        ? "border-sauge-fonce bg-sauge-clair"
-                        : "border-noir/10 bg-creme hover:border-sauge-fonce/50"
-                    }`}
-                  >
-                    <span>
-                      <span className="block font-serif text-lg leading-snug text-noir">
-                        {s.nom}
-                      </span>
-                      {s.dureeMinutes ? (
-                        <span className="mt-1 block text-xs uppercase tracking-[0.12em] text-sauge-fonce">
-                          {formatDuree(s.dureeMinutes)}
+                {choix.map((c) => {
+                  const actif = choisi?.base.variationId === c.base.variationId;
+                  const editorial = c.base.slug ? soinParSlug(c.base.slug) : undefined;
+                  return (
+                    <button
+                      key={c.base.variationId}
+                      type="button"
+                      role="radio"
+                      aria-checked={actif}
+                      onClick={() => {
+                        setChoisi(c);
+                        setService(c.base);
+                      }}
+                      className={`flex w-full items-baseline justify-between gap-4 rounded-2xl border p-5 text-left transition-colors duration-[250ms] ${
+                        actif
+                          ? "border-brun bg-nude"
+                          : "border-encre/10 bg-creme hover:border-brun/50"
+                      }`}
+                    >
+                      <span>
+                        <span className="block font-serif text-xl leading-snug text-encre">
+                          {c.base.nom}
                         </span>
-                      ) : null}
-                    </span>
-                    {s.prixCents !== null && (
-                      <span className="shrink-0 font-sans font-medium text-noir">
-                        {formatPrix(s.prixCents)}
+                        {editorial && (
+                          <span className="mt-0.5 block font-serif italic text-brun">
+                            {editorial.sousTitre}
+                          </span>
+                        )}
+                        {c.base.dureeMinutes ? (
+                          <span className="mt-1.5 block text-xs uppercase tracking-[0.12em] text-brun">
+                            {formatDuree(c.base.dureeMinutes)}
+                            {c.peeling ? " · option peeling" : ""}
+                          </span>
+                        ) : null}
                       </span>
-                    )}
-                  </button>
-                ))}
+                      {c.base.prixCents !== null && (
+                        <span className="shrink-0 font-sans font-medium text-encre">
+                          {formatPrix(c.base.prixCents)}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
+            )}
+            {choisi?.peeling && (
+              <label className="mt-5 flex cursor-pointer items-start gap-3 rounded-2xl border border-dashed border-caramel p-5">
+                <input
+                  type="checkbox"
+                  checked={service?.variationId === choisi.peeling.variationId}
+                  onChange={(e) => setService(e.target.checked ? choisi.peeling : choisi.base)}
+                  className="mt-1 size-4 accent-brun"
+                />
+                <span>
+                  <span className="block font-medium text-encre">
+                    Ajouter un peeling
+                    {choisi.peeling.prixCents !== null && choisi.base.prixCents !== null
+                      ? ` (+${formatPrix(choisi.peeling.prixCents - choisi.base.prixCents)})`
+                      : ""}
+                  </span>
+                  <span className="mt-0.5 block text-sm leading-relaxed">
+                    L&rsquo;exfoliation du soin est remplacée par un peeling, choisi pour votre
+                    peau.
+                  </span>
+                </span>
+              </label>
             )}
             <div className="mt-8 flex justify-end">
               <button
@@ -390,11 +430,11 @@ export function ReservationFlow({
           >
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h2 className="font-serif text-2xl">Choisissez votre moment</h2>
-              <p className="text-sm text-sauge-fonce">{service.nom}</p>
+              <p className="text-sm text-brun">{service.nom}</p>
             </div>
 
             {erreurEnvoi && (
-              <p role="alert" className="mt-4 rounded-xl bg-sauge-clair p-4 text-sm">
+              <p role="alert" className="mt-4 rounded-xl bg-nude p-4 text-sm">
                 {erreurEnvoi}
               </p>
             )}
@@ -409,7 +449,7 @@ export function ReservationFlow({
               >
                 ‹ Précédente
               </button>
-              <p aria-live="polite" className="text-center text-sm font-medium text-noir">
+              <p aria-live="polite" className="text-center text-sm font-medium text-encre">
                 {semaine === 0
                   ? "Les 7 prochains jours"
                   : `Semaine du ${formatDateLongue(fenetreSemaine(semaine).debut.toISOString())}`}
@@ -432,11 +472,7 @@ export function ReservationFlow({
                   message="Impossible d'afficher le calendrier pour l'instant. Réessayez dans quelques minutes, ou écrivez-nous."
                 />
               ) : creneaux === null ? (
-                <div
-                  role="status"
-                  aria-label="Chargement des disponibilités"
-                  className="space-y-6"
-                >
+                <div role="status" aria-label="Chargement des disponibilités" className="space-y-6">
                   {[0, 1].map((i) => (
                     <div key={i}>
                       <div className="skeleton h-5 w-48" />
@@ -449,8 +485,8 @@ export function ReservationFlow({
                   ))}
                 </div>
               ) : parJour.length === 0 ? (
-                <div className="rounded-2xl bg-sauge-clair p-8 text-center">
-                  <p className="font-serif text-xl text-noir">
+                <div className="rounded-2xl bg-nude p-8 text-center">
+                  <p className="font-serif text-xl text-encre">
                     Aucune disponibilité cette semaine
                   </p>
                   <p className="mt-2 text-sm leading-relaxed">
@@ -470,14 +506,13 @@ export function ReservationFlow({
                 <div className="space-y-7">
                   {parJour.map(([jour, liste]) => (
                     <section key={jour} aria-label={formatDateLongue(liste[0].debut)}>
-                      <h3 className="font-serif text-lg text-noir">
+                      <h3 className="font-serif text-lg text-encre">
                         {formatDateLongue(liste[0].debut)}
                       </h3>
                       <div className="mt-3 flex flex-wrap gap-2.5">
                         {liste.map((c) => {
                           const choisi =
-                            creneau?.debut === c.debut &&
-                            creneau.teamMemberId === c.teamMemberId;
+                            creneau?.debut === c.debut && creneau.teamMemberId === c.teamMemberId;
                           return (
                             <button
                               key={`${c.debut}-${c.teamMemberId}`}
@@ -486,8 +521,8 @@ export function ReservationFlow({
                               onClick={() => setCreneau(c)}
                               className={`rounded-full border px-5 py-2.5 font-sans text-sm transition-colors duration-[250ms] ${
                                 choisi
-                                  ? "border-noir bg-noir text-creme"
-                                  : "border-noir/15 bg-creme text-noir hover:border-sauge-fonce hover:bg-sauge-clair"
+                                  ? "border-encre bg-encre text-creme"
+                                  : "border-encre/15 bg-creme text-encre hover:border-brun hover:bg-nude"
                               }`}
                             >
                               {formatHeure(c.debut)}
@@ -538,12 +573,12 @@ export function ReservationFlow({
             <h2 className="font-serif text-2xl">Vos coordonnées</h2>
 
             {/* Récapitulatif */}
-            <div className="mt-6 rounded-2xl bg-sauge-clair p-6">
-              <p className="font-serif text-lg text-noir">{service.nom}</p>
+            <div className="mt-6 rounded-2xl bg-nude p-6">
+              <p className="font-serif text-lg text-encre">{service.nom}</p>
               <p className="mt-1 text-sm">
                 {formatDateComplete(creneau.debut)} à {formatHeure(creneau.debut)}
               </p>
-              <p className="mt-1 text-sm text-sauge-fonce">
+              <p className="mt-1 text-sm text-brun">
                 {[
                   formatDuree(creneau.dureeMinutes ?? service.dureeMinutes),
                   service.prixCents !== null ? formatPrix(service.prixCents) : null,
@@ -623,12 +658,12 @@ export function ReservationFlow({
                 />
               </div>
 
+              <p className="text-[0.82rem] leading-relaxed">{clinique.politiqueAnnulation}</p>
+
               <div aria-live="polite">
-                {erreurFormulaire && (
-                  <p className="text-sm text-sauge-fonce">{erreurFormulaire}</p>
-                )}
+                {erreurFormulaire && <p className="text-sm text-brun">{erreurFormulaire}</p>}
                 {erreurEnvoi && (
-                  <p role="alert" className="rounded-xl bg-sauge-clair p-4 text-sm">
+                  <p role="alert" className="rounded-xl bg-nude p-4 text-sm">
                     {erreurEnvoi}
                   </p>
                 )}
@@ -664,19 +699,23 @@ export function ReservationFlow({
           >
             <span
               aria-hidden
-              className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-sauge-clair font-serif text-3xl text-sauge-fonce"
+              className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-nude font-serif text-3xl text-brun"
             >
               ✓
             </span>
-            <h2 className="mt-6 font-serif text-3xl text-noir">C&rsquo;est réservé!</h2>
+            <h2 className="mt-6 font-serif text-3xl text-encre">C&rsquo;est réservé!</h2>
             <p className="mx-auto mt-4 max-w-md leading-relaxed">
-              <span className="font-medium text-noir">{confirmation.recapService}</span>
+              <span className="font-medium text-encre">{confirmation.recapService}</span>
               <br />
               {formatDateComplete(confirmation.debut)} à {formatHeure(confirmation.debut)}
             </p>
-            <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-texte-doux">
-              Votre rendez-vous est inscrit à l&rsquo;horaire de la clinique. Une confirmation
-              et un rappel vous seront envoyés automatiquement.
+            <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-texte">
+              Votre rendez-vous est inscrit à l&rsquo;horaire de la clinique, au{" "}
+              {clinique.adresse.rue}. Pour le déplacer ou l&rsquo;annuler, appelez au{" "}
+              <a href={lienTelephone} className="font-medium text-brun">
+                {clinique.telephone}
+              </a>{" "}
+              au moins 48&nbsp;h à l&rsquo;avance.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link href="/" className="btn btn-primaire">

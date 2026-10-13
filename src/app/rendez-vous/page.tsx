@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ReservationFlow } from "@/components/reservation/ReservationFlow";
 import { Reveal } from "@/components/Reveal";
+import { clinique } from "@/content/clinique";
 import { soinParSlug } from "@/content/soins";
 
 export const metadata: Metadata = {
@@ -19,15 +20,13 @@ export default async function RendezVous({ searchParams }: PageProps<"/rendez-vo
       <section className="py-14 sm:py-20">
         <div className="conteneur text-center">
           <Reveal>
-            <p className="text-xs font-medium uppercase tracking-[0.24em] text-sauge-fonce">
-              Réservation en ligne
-            </p>
-            <h1 className="mx-auto mt-4 max-w-2xl font-serif text-4xl sm:text-5xl">
-              Prendre rendez-vous
+            <p className="surtitre">Réservation en ligne</p>
+            <h1 className="mx-auto mt-5 max-w-2xl font-serif text-[clamp(2.6rem,5.5vw,4.5rem)] leading-[1.05]">
+              Prendre <em className="text-brun">rendez-vous</em>
             </h1>
-            <p className="mx-auto mt-5 max-w-lg text-sm leading-relaxed sm:text-base">
-              Trois petites étapes, et votre rendez-vous est inscrit directement à
-              l&rsquo;horaire de la clinique.
+            <p className="mx-auto mt-5 max-w-lg leading-relaxed">
+              Trois petites étapes, et votre rendez-vous est inscrit directement à l&rsquo;horaire
+              de la clinique ({clinique.heuresResume.toLowerCase()}).
             </p>
           </Reveal>
         </div>
@@ -35,13 +34,7 @@ export default async function RendezVous({ searchParams }: PageProps<"/rendez-vo
 
       <section className="pb-20 sm:pb-28">
         <div className="conteneur max-w-3xl">
-          <ReservationFlow
-            soinPreselectionne={
-              soinDemande && !soinDemande.option
-                ? { nomSquare: soinDemande.nomSquare, nom: soinDemande.nom }
-                : undefined
-            }
-          />
+          <ReservationFlow soinPreselectionne={soinDemande?.slug} />
         </div>
       </section>
     </>

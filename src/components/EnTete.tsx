@@ -4,28 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { clinique, adresseComplete } from "@/content/clinique";
+import { Logo } from "@/components/Logo";
+import { clinique, adresseComplete, lienTelephone } from "@/content/clinique";
 
 const liens = [
   { href: "/soins", libelle: "Soins" },
-  { href: "/a-propos", libelle: "À propos" },
+  { href: "/a-propos", libelle: "Karianne" },
   { href: "/contact", libelle: "Contact" },
 ] as const;
-
-export function Logo({ classe = "" }: { classe?: string }) {
-  return (
-    <span className={`font-serif text-xl leading-none tracking-[0.06em] text-noir ${classe}`}>
-      <span aria-hidden className="text-sauge">
-        ({" "}
-      </span>
-      La&nbsp;Parenthèse
-      <span aria-hidden className="text-sauge">
-        {" "}
-        )
-      </span>
-    </span>
-  );
-}
 
 export function EnTete() {
   const [ouvert, setOuvert] = useState(false);
@@ -46,10 +32,10 @@ export function EnTete() {
   }, [ouvert]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-noir/8 bg-creme/85 backdrop-blur-md">
-      <div className="conteneur flex h-[4.25rem] items-center justify-between gap-4">
-        <Link href="/" aria-label={`${clinique.nom} — accueil`} className="shrink-0">
-          <Logo />
+    <header className="sticky top-0 z-40 border-b border-encre/10 bg-creme/90 backdrop-blur-md">
+      <div className="conteneur flex h-[4.25rem] items-center justify-between gap-4 md:h-[4.75rem]">
+        <Link href="/" className="shrink-0">
+          <Logo preload className="w-[9.25rem] md:w-44" />
         </Link>
 
         <nav aria-label="Navigation principale" className="hidden items-center gap-8 md:flex">
@@ -58,29 +44,34 @@ export function EnTete() {
               key={lien.href}
               href={lien.href}
               aria-current={chemin === lien.href ? "page" : undefined}
-              className={`text-[0.8125rem] font-medium uppercase tracking-[0.12em] transition-colors duration-[250ms] hover:text-sauge-fonce ${
-                chemin?.startsWith(lien.href) ? "text-sauge-fonce" : "text-noir"
+              className={`py-2 text-xs font-medium uppercase tracking-[0.16em] transition-colors duration-[250ms] hover:text-brun ${
+                chemin?.startsWith(lien.href) ? "text-brun" : "text-encre"
               }`}
             >
               {lien.libelle}
             </Link>
           ))}
-          <Link href="/rendez-vous" className="btn btn-primaire px-6 py-2.5 text-[0.72rem]">
+          <Link href="/rendez-vous" className="btn btn-primaire px-[1.375rem] py-3 text-[0.72rem]">
             Prendre rendez-vous
           </Link>
         </nav>
 
-        <button
-          type="button"
-          onClick={() => setOuvert(true)}
-          aria-expanded={ouvert}
-          aria-controls="menu-mobile"
-          aria-label="Ouvrir le menu"
-          className="flex h-11 w-11 flex-col items-center justify-center gap-[7px] md:hidden"
-        >
-          <span className="h-px w-6 bg-noir" aria-hidden />
-          <span className="h-px w-6 bg-noir" aria-hidden />
-        </button>
+        <div className="flex items-center gap-1 md:hidden">
+          <Link href="/rendez-vous" className="btn btn-primaire px-[1.125rem] py-2.5 text-[0.7rem]">
+            Réserver
+          </Link>
+          <button
+            type="button"
+            onClick={() => setOuvert(true)}
+            aria-expanded={ouvert}
+            aria-controls="menu-mobile"
+            aria-label="Ouvrir le menu"
+            className="flex h-11 w-11 flex-col items-center justify-center gap-[7px]"
+          >
+            <span className="h-px w-6 bg-encre" aria-hidden />
+            <span className="h-px w-6 bg-encre" aria-hidden />
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
@@ -94,7 +85,7 @@ export function EnTete() {
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
               onClick={() => setOuvert(false)}
               aria-hidden
-              className="fixed inset-0 z-40 bg-noir/30 md:hidden"
+              className="fixed inset-0 z-40 bg-encre/30 md:hidden"
             />
             <motion.div
               key="panneau"
@@ -108,13 +99,13 @@ export function EnTete() {
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
               className="fixed inset-y-0 right-0 z-50 flex w-[82%] max-w-sm flex-col bg-creme md:hidden"
             >
-              <div className="flex h-[4.25rem] items-center justify-between border-b border-noir/8 px-6">
-                <Logo />
+              <div className="flex h-[4.25rem] items-center justify-between border-b border-encre/10 px-6">
+                <Logo className="w-[9.25rem]" />
                 <button
                   type="button"
                   onClick={() => setOuvert(false)}
                   aria-label="Fermer le menu"
-                  className="flex h-11 w-11 items-center justify-center text-2xl leading-none text-noir"
+                  className="flex h-11 w-11 items-center justify-center text-2xl leading-none text-encre"
                 >
                   <span aria-hidden>×</span>
                 </button>
@@ -131,7 +122,7 @@ export function EnTete() {
                     <Link
                       href={lien.href}
                       onClick={() => setOuvert(false)}
-                      className="block py-3 font-serif text-3xl text-noir transition-colors duration-[250ms] hover:text-sauge-fonce"
+                      className="block py-3 font-serif text-3xl text-encre transition-colors duration-[250ms] hover:text-brun"
                     >
                       {lien.libelle}
                     </Link>
@@ -153,13 +144,17 @@ export function EnTete() {
                 </motion.div>
               </nav>
 
-              <div className="border-t border-noir/8 px-6 py-6 text-sm text-texte-doux">
+              <div className="border-t border-encre/10 px-6 py-6 text-sm text-texte">
                 <p>{adresseComplete}</p>
+                <p className="mt-1">{clinique.heuresResume}</p>
+                <a href={lienTelephone} className="mt-2 block font-medium text-brun">
+                  {clinique.telephone}
+                </a>
                 <a
                   href={clinique.instagram.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-block font-medium text-sauge-fonce"
+                  className="mt-2 inline-block font-medium text-brun"
                 >
                   {clinique.instagram.pseudo}
                 </a>

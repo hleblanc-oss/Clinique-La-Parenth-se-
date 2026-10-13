@@ -31,25 +31,3 @@ export function Reveal({
     </motion.div>
   );
 }
-
-/** Fade-in lent avec léger zoom-out (1.06 → 1) pour les visuels hero. */
-export function ApparitionHero({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  const mouvementReduit = useReducedMotion();
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: mouvementReduit ? 1 : 1.06 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}

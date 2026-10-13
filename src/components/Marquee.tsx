@@ -1,14 +1,14 @@
-const MOTS = ["Hydratation", "Anti-âge", "Éclat", "Apaisement", "Douceur", "Peau saine"];
+const MOTS = ["Hydratation", "Éclat", "Apaisement", "Anti-âge", "Peau saine", "Douceur"];
 
 function Sequence({ cachee = false }: { cachee?: boolean }) {
   return (
     <span aria-hidden={cachee || undefined} className="flex shrink-0 items-center">
       {MOTS.map((mot) => (
         <span key={mot} className="flex items-center">
-          <span className="px-6 text-[0.8125rem] font-medium uppercase tracking-[0.22em] text-sauge-fonce sm:px-10">
+          <span className="px-7 text-[0.78rem] font-medium uppercase tracking-[0.24em] text-brun">
             {mot}
           </span>
-          <span aria-hidden className="text-sauge">
+          <span aria-hidden className="text-caramel">
             ·
           </span>
         </span>
@@ -17,10 +17,10 @@ function Sequence({ cachee = false }: { cachee?: boolean }) {
   );
 }
 
-/** Bandeau de mots-clés à défilement lent (inspiration Esthelle). */
+/** Bandeau de mots-clés à défilement lent. */
 export function Marquee() {
   return (
-    <div className="marquee overflow-hidden border-y border-sauge/30 bg-sauge-clair py-3.5">
+    <div className="marquee overflow-hidden bg-nude py-4">
       <div className="marquee-piste">
         <Sequence />
         <Sequence cachee />

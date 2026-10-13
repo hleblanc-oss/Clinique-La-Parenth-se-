@@ -1,57 +1,61 @@
+import Image from "next/image";
 import { clinique } from "@/content/clinique";
-import { SectionEtiquette } from "@/components/SectionEtiquette";
 import { Reveal } from "@/components/Reveal";
 
 /**
- * Section Instagram — tuiles décoratives menant au profil.
- * TODO Phase 1+ : brancher un flux réel (Behold.so ou API Instagram Graph)
- * pour afficher les derniers posts de @cliniquelaparenthese.
+ * Section Instagram : tuiles en arche menant au profil.
+ * TODO : brancher le vrai fil (Behold.so ou API Instagram Graph) pour
+ * afficher les derniers posts de @cliniquelaparenthese.
  */
 
-const TUILES = [
-  "from-sauge-clair to-sauge/50",
-  "from-creme to-sauge-clair",
-  "from-sauge/40 to-sauge-clair",
-  "from-sauge-clair to-creme",
-  "from-sauge/30 to-creme",
-  "from-creme to-sauge/40",
+const TUILES: ({ src: string } | null)[] = [
+  { src: "/images/soin-collagene.jpg" },
+  null,
+  { src: "/images/soin-masque.jpg" },
+  null,
+  { src: "/images/soin-peeling.jpg" },
+  null,
 ];
 
 export function InstagramSection() {
   return (
-    <section className="py-20 sm:py-28">
+    <section className="pb-20 sm:pb-28">
       <div className="conteneur">
-        <Reveal>
-          <SectionEtiquette etiquette="Instagram" titre="Suivez la parenthèse" centre />
-          <p className="mt-4 text-center">
-            <a
-              href={clinique.instagram.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-sauge-fonce underline decoration-sauge underline-offset-4 transition-colors duration-[250ms] hover:text-noir"
-            >
-              {clinique.instagram.pseudo}
-            </a>
-          </p>
+        <Reveal className="flex flex-wrap items-end justify-between gap-3">
+          <h2 className="font-serif text-4xl sm:text-5xl">Suivez la parenthèse</h2>
+          <a
+            href={clinique.instagram.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border-b border-caramel pb-1.5 text-[0.82rem] font-medium tracking-[0.12em] text-brun transition-colors duration-[250ms] hover:border-brun"
+          >
+            {clinique.instagram.pseudo}
+          </a>
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-3 gap-3 sm:grid-cols-6 sm:gap-4">
-          {TUILES.map((degrade, i) => (
-            <Reveal key={i} delai={i * 0.08}>
+        <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-3.5 lg:grid-cols-6">
+          {TUILES.map((tuile, i) => (
+            <Reveal key={i} delai={(i % 3) * 0.08}>
               <a
                 href={clinique.instagram.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Voir le profil Instagram ${clinique.instagram.pseudo}`}
-                className="group block overflow-hidden rounded-xl"
+                className="arche relative block aspect-[3/4] transition-transform duration-300 ease-doux motion-safe:hover:-translate-y-1"
               >
-                <div
-                  className={`flex aspect-square items-center justify-center bg-gradient-to-br ${degrade} transition-transform duration-300 ease-doux group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100`}
-                >
-                  <span aria-hidden className="font-serif text-3xl text-sauge-fonce/50">
+                {tuile ? (
+                  <Image
+                    src={tuile.src}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1024px) 16vw, 33vw"
+                    className="object-cover"
+                  />
+                ) : (
+                  <span className="flex h-full items-center justify-center bg-gradient-to-br from-nude to-peche font-serif text-3xl text-caramel">
                     (&thinsp;)
                   </span>
-                </div>
+                )}
               </a>
             </Reveal>
           ))}
